@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Producto {
+  id Int @id @default(autoincrement())
+  nombre String
+  precio Float
+  costo Float
+  imagen String 
+  descripcion String
+  iva Float
+  categoria Categoria @relation( fields: [categoriaId], references: [id] )
+  categoriaId Int
+  proveedor Proveedor @relation( fields: [proveedorId], references: [id] )
+  proveedorId Int
+  inventario Int
+  compras Compra[]
+  carrito Carrito[]
+}
+
+model Categoria {
+  id Int @id @default(autoincrement())
+  nombre String 
+  icono String 
+  productos Producto[]
+}
+
+model Proveedor {
+  id Int @id @default(autoincrement())
+  nombre String
+  productos Producto[]
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())
+  nombre String
+  apellido String
+  correo String 
+  password String 
+  numero String
+  direccion Direccion @relation( fields: [direccionId], references: [id] )
+  direccionId Int
+  compras Compra[]
+  carrito Carrito[]
+  paypal Paypal[]
+}
+
+model Direccion {
+  id Int @id @default(autoincrement())
+  calleNumero String
+  colonia String 
+  codigoPostal Int
+  ciudad String
+  estado String
+  usuarios Usuario[]
+}
+
+model Compra {
+  id Int @id @default(autoincrement())
+  fecha String
+  total Float
+  producto Producto @relation( fields: [productoId], references: [id] )
+  productoId Int
+  usuario Usuario @relation( fields: [usuarioId], references: [id] )
+  usuarioId Int
+}
+
+model Carrito {
+  id Int @id @default(autoincrement())
+  usuario Usuario @relation( fields: [usuarioId], references: [id] )
+  usuarioId Int
+  producto Producto @relation( fields: [productoId], references: [id] )
+  productoId Int
+  cantidadOProductos Int
+  subtotal Float
+  fecha String
+}
+
+model Paypal {
+  id Int @id @default(autoincrement())
+  email String 
+  token String 
+  usuario Usuario @relation( fields: [usuarioId], references: [id] )
+  usuarioId Int
+}
