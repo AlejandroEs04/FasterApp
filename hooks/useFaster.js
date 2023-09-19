@@ -1,5 +1,5 @@
 'use client'
-import FasterContext from "@/context/FasterProvider"
+import FasterContext from "../context/FasterProvider"
 import { useContext } from "react"
 
 const useFaster = () => {

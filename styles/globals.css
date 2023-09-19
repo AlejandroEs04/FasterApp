@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #11234d;
+  --secundary: #ffc82f;
+  --black: #1b1a1a;
+  --gray: #96979b;
+  --fondo: #ececec;
+  --white: #FFFFFF;
+}
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+
+  display: flex;
+  height: 100%;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+h1, h2, h3, h4, p {
+  margin: 0;
+}
+body {
+  margin: 0;
+  font-size: 2rem;
+  flex: 1;
+  background-color: var(--fondo);
+}
+a {
+  text-decoration: none;
+  color: var(--black);
+}
+.contenedor {
+  text-align: center;
+  padding: 3rem 8%;
+}
