@@ -34,8 +34,6 @@ export async function POST(request) {
         .end(buffer)
     })
 
-    console.log(response)
-
     return NextResponse.json({
         message: 'Ok',
         url: response.secure_url

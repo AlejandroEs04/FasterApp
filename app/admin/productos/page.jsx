@@ -1,10 +1,16 @@
+'use client'
+import useAdmin from "../../../hooks/useAdmin"
+
 const ProductosPage = () => {
+
+  const { handleChangeModal } = useAdmin()
+
   return (
     <div className='contenedor'>
       <h2 className="text-4xl font-bold">Productos</h2>
 
       <div>
-        <button className="flex items-center gap-4">
+        <button className="flex items-center gap-4" onClick={() => handleChangeModal('productos')}>
           <p className="text-3xl">Agregar Producto</p>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

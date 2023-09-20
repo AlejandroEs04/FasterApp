@@ -1,12 +1,14 @@
 'use client'
 import Link from 'next/link'
 import { AdminProvider } from '../../context/AdminProvider'
+import ModalContenedor from '../../components/ModalContenedor'
+import AlertPopUp from '../../components/AlertPopUp'
 
 const layout = ({children}) => {
   return (
     <AdminProvider>
         <main className='flex h-full'>
-            <aside className='flex-col w-1/5 bg-slate-900 h-full pt-10 px-6 text-white'>
+            <aside className='flex-col w-1/5 bg-slate-900 pt-10 px-6 text-white'>
                 <div>
                     <h3 className='text-4xl font-extrabold mb-10'>Navegacion</h3>
                     <nav className='flex flex-col gap-6'>
@@ -41,10 +43,15 @@ const layout = ({children}) => {
                 <p className='mt-20 text-2xl font-bold'>Zona de administracion</p>
             </aside>
 
-            <div className='w-4/5'>
+            <div className='w-4/5 overflow-x-scroll'>
                 {children}
             </div>
+
+            
         </main>
+
+        <ModalContenedor />
+        <AlertPopUp />
     </AdminProvider>
   )
 }
