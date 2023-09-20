@@ -2,22 +2,22 @@
 import { useEffect, useCallback } from 'react'
 import useAdmin from '../hooks/useAdmin'
 
-const FormularioCategoria = () => {
+const FormularioProveedores = () => {
 
-    const {setImagen, nombre, setNombre, handleSaveItem, imagen } = useAdmin()
+    const { nombre, setNombre, handleSaveItem } = useAdmin()
 
     const comprobarInfo = useCallback(() => {
-        return imagen === null || nombre === '' || nombre.length < 3 
-    }, [nombre, imagen])
+        return nombre === '' || nombre.length < 3
+    }, [nombre])
 
     useEffect(() => {
         comprobarInfo()
-    }, [nombre, imagen])
+    }, [nombre])
 
-    return (
-        <form className='flex flex-col gap-5' onSubmit={handleSaveItem}>
+  return (
+    <form className='flex flex-col gap-5' onSubmit={handleSaveItem}>
             <div className="flex flex-col">
-                <label htmlFor="nombre">Nombre de categoria</label>
+                <label htmlFor="nombre">Nombre de proveedor</label>
                 <input 
                     type="text" 
                     placeholder="Nombre" 
@@ -25,16 +25,6 @@ const FormularioCategoria = () => {
                     className="border px-4 py-2 rounded-md mt-2 text-3xl"   
                     value={nombre}
                     onChange={e => setNombre(e.target.value)}  
-                />
-            </div>
-
-            <div className='flex flex-col'>
-                <label htmlFor="icono">Icono</label>
-                <input 
-                    type='file' 
-                    id='icono'
-                    className="border px-4 py-2 rounded-md mt-2 text-2xl" 
-                    onChange={e => setImagen(e.target.files[0])}
                 />
             </div>
 
@@ -46,7 +36,7 @@ const FormularioCategoria = () => {
                 Guardar
             </button>   
         </form>
-    )
+  )
 }
 
-export default FormularioCategoria
+export default FormularioProveedores

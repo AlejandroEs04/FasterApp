@@ -4,6 +4,8 @@ import useAdmin from '../hooks/useAdmin';
 import { useCallback, useEffect, useState } from 'react';
 import Loading from './Loading';
 import FormularioCategoria from './FormularioCategoria'
+import FormularioProductos from './FormularioProductos';
+import FormularioProveedores from './FormularioProveedores'
 
 const customStyles = {
     content: {
@@ -35,6 +37,8 @@ const ModalContenedor = () => {
                 </button>
             </div>
             {tipo === 'categorias' && <FormularioCategoria />}
+            {tipo === 'productos' && <FormularioProductos />}
+            {tipo === 'proveedores' && <FormularioProveedores />}
             {loading && <Loading />}
         </Modal>
     )
