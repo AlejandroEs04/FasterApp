@@ -1,4 +1,5 @@
 'use client'
+import ListadoProductos from "../../../components/ListadoProductos"
 import useAdmin from "../../../hooks/useAdmin"
 
 const ProductosPage = () => {
@@ -7,7 +8,7 @@ const ProductosPage = () => {
 
   return (
     <div className='contenedor'>
-      <h2 className="text-4xl font-bold">Productos</h2>
+      <h2 className="text-4xl font-bold text-blue-950">Productos</h2>
 
       <div>
         <button className="flex items-center gap-4" onClick={() => handleChangeModal('productos')}>
@@ -17,9 +18,7 @@ const ProductosPage = () => {
           </svg>
         </button>
 
-        <div>
-          
-        </div>
+        <ListadoProductos />
       </div>
     </div>
   )

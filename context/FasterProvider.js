@@ -1,32 +1,33 @@
 'use client'
-import { useState, useEffect, createContext } from "react";
+import axios from "axios";
+import { createContext, useEffect, useState } from "react";
 
 const FasterContext = createContext()
+
 const FasterProvider = ({children}) => {
-    const [imagen, setImagen] = useState({})
-    const [imageUrl, setImageUrl] = useState(null)
+    const [categorias, setCategorias] = useState(null)
 
-    const handleSaveItem = async() => {
-        const formData = new FormData()
-        formData.append('file', imagen)
+    const [sideBarContainer, setSideBarContainer] = useState(false)
 
-        const response = await fetch('/api/upload', {
-            method: 'POST',
-            body: formData
-        })
+    const obtenerCategorias = async() => {
+        const { data } = await axios(`http://localhost:3000/api/categorias`)
+        setCategorias(data.categorias)
+    }
 
-        const data = await response.json()
-        setImageUrl(data.url)
+    useEffect(() => {
+        obtenerCategorias()
+    }, [])
+
+    const handleChangeSideBar = () => {
+        setSideBarContainer(!sideBarContainer)
     }
 
     return (
         <FasterContext.Provider
             value={{
-                setImagen,
-                imagen,
-                imageUrl,
-                setImageUrl,
-                handleSaveItem
+                categorias,
+                sideBarContainer,
+                handleChangeSideBar
             }}
         >
             {children}

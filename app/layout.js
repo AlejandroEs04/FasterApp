@@ -3,6 +3,7 @@ import styles from '../styles/globals.css'
 import { Roboto } from 'next/font/google'
 import Header from '../components/Header';
 import ToastContenedor from '../components/ToastContenedor'
+import SideBar from '../components/SideBar'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['100', '300', '400', '500', '700', '900']  })
 
@@ -16,10 +17,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <FasterProvider>
         <body className={roboto.className} id='root'>
+          <SideBar />
           <header>
             <Header />
           </header>
-          
+
           {children}
 
           <ToastContenedor />

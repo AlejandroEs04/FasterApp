@@ -7,7 +7,7 @@ const ProveedoresPage = () => {
 
   return (
     <div className='contenedor'>
-      <h2 className="text-4xl font-bold">Proveedores</h2>
+      <h2 className="text-4xl font-bold text-blue-950">Proveedores</h2>
 
       <div>
         <button className="flex items-center gap-4" onClick={() => handleChangeModal('proveedores')}>

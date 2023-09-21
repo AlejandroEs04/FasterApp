@@ -175,7 +175,24 @@ const AdminProvider = ({children}) => {
     const handleDeleteItem = async () => {
         switch (tipo) {
             case 'productos':
-                console.log(id)
+                try {
+                    await axios.delete('/api/productos', {
+                        data: {
+                            elementoId
+                        }
+                    })
+
+                    setTipo('')
+                    setElementoId(null)
+
+                    toast.error("Producto Eliminada Correctamente")
+
+                    setTimeout(() => {
+                        setAlertModal(false)
+                    }, 500)
+                } catch (err) {
+                    console.log(err)
+                }
                 break;
             
             case 'categorias':
