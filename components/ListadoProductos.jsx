@@ -17,10 +17,6 @@ const ListadoProductos = () => {
                     <div className='flex items-center justify-center'>
                         <Image src={producto.imagen} width={80} height={80} alt={`Imagen Categoria ${producto.nombre}`} className='h-full' />
                     </div>
-                    <p>{producto.descripcion}</p>
-                    <p>{producto.iva}</p>
-                    <p>Categoria</p>
-                    <p>Proveedor</p>
                     <p>{producto.inventario}</p>
 
                     <div className='flex gap-5 justify-center'>

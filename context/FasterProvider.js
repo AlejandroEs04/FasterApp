@@ -6,7 +6,7 @@ const FasterContext = createContext()
 
 const FasterProvider = ({children}) => {
     const [categorias, setCategorias] = useState(null)
-
+    const [productos, setProductos] = useState(null)
     const [sideBarContainer, setSideBarContainer] = useState(false)
 
     const obtenerCategorias = async() => {
@@ -14,8 +14,14 @@ const FasterProvider = ({children}) => {
         setCategorias(data.categorias)
     }
 
+    const obtenerProductos = async() => {
+        const { data } = await axios(`http://localhost:3000/api/productos`)
+        setProductos(data.productos)
+    }
+
     useEffect(() => {
         obtenerCategorias()
+        obtenerProductos()
     }, [])
 
     const handleChangeSideBar = () => {
@@ -26,6 +32,7 @@ const FasterProvider = ({children}) => {
         <FasterContext.Provider
             value={{
                 categorias,
+                productos,
                 sideBarContainer,
                 handleChangeSideBar
             }}

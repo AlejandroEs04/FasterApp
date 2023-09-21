@@ -14,9 +14,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" >
       <FasterProvider>
-        <body className={roboto.className} id='root'>
+        <body className={`${roboto.className} overflow-x-hidden`} id='root'>
           <SideBar />
           <header>
             <Header />
