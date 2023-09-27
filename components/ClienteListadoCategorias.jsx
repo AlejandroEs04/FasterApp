@@ -18,7 +18,7 @@ const ClienteListadoCategorias = () => {
                 ))}
             </div>
 
-            <Link href={`/categorias`} className='text-center font-bold text-blue-950 hover:text-blue-800 pt-10 pb-5'>Ver todas las categorias</Link>
+            <Link href={`/categorias`} className='text-center font-bold text-blue-950 hover:text-blue-800 pb-5'>Ver todas las categorias</Link>
         </div>
     )
 }

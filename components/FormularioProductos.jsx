@@ -1,6 +1,7 @@
 'use client'
 import { useCallback, useEffect } from 'react'
 import useAdmin from '../hooks/useAdmin'
+import useFaster from '../hooks/useFaster'
 
 const FormularioProductos = () => {
 
@@ -19,7 +20,6 @@ const FormularioProductos = () => {
         setIva,
         iva,
         proveedores,
-        categorias,
         setInventario,
         inventario,
         setCategoriaId, 
@@ -27,6 +27,8 @@ const FormularioProductos = () => {
         setProveedorId, 
         proveedorId
     } = useAdmin()
+
+    const { categorias } = useFaster()
 
     const comprobarInfo = useCallback(() => {
         return imagen === null || nombre === '' || nombre.length < 3 || costo <= 0 || precio <= 0 || iva <= 0 || descripcion.length < 20 || descripcion === '' || inventario <= 0 || proveedorId <= 0 || categoriaId <= 0

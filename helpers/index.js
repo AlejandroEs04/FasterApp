@@ -5,6 +5,8 @@ const formatearDinero = cantidad => {
     })
 }
 
+
+
 export {
     formatearDinero
 }

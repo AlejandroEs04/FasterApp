@@ -36,11 +36,23 @@ a {
 }
 .contenedor {
   text-align: center;
-  padding: 3rem 8%;
+  padding: 3rem 6%;
+}
+.contenedorLogin {
+  padding: 3rem 6%;
+}
+@media (min-width: 768px) {
+  .contenedor {
+    padding: 3rem 10%;
+  }
+  .contenedorLogin {
+    padding: 3rem 35%;
+  }
 }
 button {
   transition: all ease-in-out 0.2s;
 }
+
 
 
 .sk-chase {

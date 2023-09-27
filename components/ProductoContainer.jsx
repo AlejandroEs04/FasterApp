@@ -7,9 +7,9 @@ const ProductoContainer = ({producto}) => {
     const { precio } = producto
 
     return (
-        <Link href={`/productos/${producto.id}`} className="bg-white h-full w-80 flex flex-col gap-4 items-center justify-around px-1 py-10 mx-4">
+        <Link href={`/productos/${producto.id}`} className="bg-white h-full w-80 flex flex-col gap-4 items-center justify-around px-1 py-10 mx-4 hover:scale-105">
             <div className="p-2">
-                <Image src={producto.imagen} alt={`Imagen Producto ${producto.nombre}`} width={200} height={200} className="w-auto h-48" />
+                <Image src={producto.imagen} alt={`Imagen Producto ${producto.nombre}`} width={55} height={55} className="w-auto h-48" />
             </div>
 
             <div className="py-2 px-2">

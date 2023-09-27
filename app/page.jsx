@@ -6,13 +6,16 @@ export default function Home() {
 
   return (
     <main>
-        <SliderContainer />
+        <div>
+          <SliderContainer />
+        </div>
+        
         <ClienteListadoCategorias />
 
         <div className='contenedor flex flex-col gap-10'>
           <div className='flex flex-col gap-5 text-start'>
             <h3 className='text-4xl font-extrabold text-blue-900 pl-4'>Populares</h3>
-            <ClienteListadoProductos />17
+            <ClienteListadoProductos />
           </div>
 
           <div className='flex flex-col gap-5 text-start'>

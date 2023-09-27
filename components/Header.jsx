@@ -4,21 +4,25 @@ import Image from 'next/image'
 import logo from '../public/img/Fondo-LB.webp'
 import Link from 'next/link'
 import useFaster from '../hooks/useFaster'
+import AuthNav from './AuthNav'
+
 
 function Header() {
-
     const { handleChangeSideBar } = useFaster()
 
     return (
         <div className={styles.headerContainer}>
             <div className={styles.logoContainer}>
                 <div className='flex items-center gap-16'>
-                    <Image src={logo} width={250} alt='Logo Faster'/>
+                    <Link href={'/'}>
+                      <Image src={logo} width={100} height={50} alt='Logo Faster'/>
+                    </Link>
+                    
                     <div className='hidden md:flex'>
                         <nav>
-                            <Link href={'/'} >Inicio</Link>
-                            <Link href={'/productos'} >Productos</Link>
-                            <Link href={'/categorias'} >Categorias</Link>
+                            <Link href={'/'} className="text-white text-3xl px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link>
+                            <Link href={'/productos'} className="text-white text-3xl px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link>
+                            <Link href={'/categorias'} className="text-white text-3xl px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link>
                         </nav>
                     </div>
 
@@ -34,9 +38,7 @@ function Header() {
                 
                 <div className='hidden md:flex'>
                     <nav>
-                        <Link href={'/login'} >Iniciar Sesion</Link>
-                        <Link href={'/cuenta'} >Cuenta</Link>
-                        <Link href={''} >Carrito</Link>
+                        <AuthNav />
                     </nav>    
                 </div>      
             </div>

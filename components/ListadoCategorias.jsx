@@ -2,10 +2,12 @@
 import Image from 'next/image'
 import useAdmin from '../hooks/useAdmin'
 import Loading from './Loading'
+import useFaster from '../hooks/useFaster'
 
 const ListadoCategorias = () => {
 
-    const { categorias, handleChangeAlert } = useAdmin()
+    const { handleChangeAlert } = useAdmin()
+    const { categorias } = useFaster()
 
     return (
         <div className='flex flex-col mt-10 bg-white py-5 px-10 rounded-3xl gap-5'>

@@ -1,7 +1,6 @@
 'use client'
 import Modal from 'react-modal'
 import useAdmin from '../hooks/useAdmin';
-import { useCallback, useEffect, useState } from 'react';
 import Loading from './Loading';
 import FormularioCategoria from './FormularioCategoria'
 import FormularioProductos from './FormularioProductos';

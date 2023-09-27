@@ -2,12 +2,14 @@
 import Link from "next/link"
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar"
 import useFaster from "../hooks/useFaster"
+import AuthNav from "./AuthNav"
 
 const SideBar = () => {
 
     const { sideBarContainer, handleChangeSideBar } = useFaster()
 
   return (
+    <div className="z-50">
     <Sidebar
         collapsed={sideBarContainer}
         width="0"
@@ -15,6 +17,7 @@ const SideBar = () => {
         rootStyles={{
             position: "fixed",
             height: "100%",
+            zIndex: 10
         }}
         backgroundColor="#11234d"
     >
@@ -36,12 +39,11 @@ const SideBar = () => {
             </div>
 
             <nav className="flex flex-col items-end pb-20 gap-5">
-                <Link href={'/login'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black text-3xl">Iniciar Sesion</Link>
-                <Link href={'/cuenta'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black text-3xl">Cuenta</Link>
-                <Link href={''} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black text-3xl">Carrito</Link>
+                <AuthNav />
             </nav>
         </div>
     </Sidebar>
+    </div>
   )
 }
 

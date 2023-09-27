@@ -6,9 +6,7 @@ import { createContext, useState, useEffect } from "react"
 const AdminContext = createContext()
 
 const AdminProvider = ({children}) => {
-    const [productos, setProductos] = useState(null)
     const [proveedores, setProveedores] = useState(null)
-    const [categorias, setCategorias] = useState(null)
     const [modal, setModal] = useState(false)
     const [imagen, setImagen] = useState(null)
     const [nombre, setNombre] = useState('')
@@ -24,15 +22,10 @@ const AdminProvider = ({children}) => {
     const [elementoId, setElementoId] = useState(null)
     const [loading, setLoading] = useState(false)
 
-    const obtenerCategorias = async () => {
-        const { data } = await axios(`http://localhost:3000/api/categorias`)
-        setCategorias(data.categorias)
-    }
-
-    const obtenerProductos = async () => {
-        const { data } = await axios('http://localhost:3000/api/productos')
-        setProductos(data.productos)
-    }
+    // Ticket
+    const [listaTicket, setListaTicket] = useState([])
+    const [value, setValue] = useState(null)
+    const [ticket, setTicket] = useState(null)
 
     const obtenerProveedores = async () => {
         const { data } = await axios('http://localhost:3000/api/proveedores')
@@ -40,17 +33,7 @@ const AdminProvider = ({children}) => {
     }
 
     useEffect(() => {
-        obtenerCategorias()
-        obtenerProductos()
         obtenerProveedores()
-    }, [])
-
-    useEffect(() => {
-        obtenerCategorias()
-    }, [])
-
-    useEffect(() => {
-        obtenerCategorias()
     }, [])
 
     const handleChangeModal = (tipo, elementoId) => {
@@ -225,11 +208,35 @@ const AdminProvider = ({children}) => {
         }
     }
 
+    const handleAddItemTicket = async() => {
+        if(listaTicket.some(productoTicket => productoTicket.id === value.id)) {
+            let listaTicketActualizada = listaTicket.map(productoTicket => productoTicket.id === value.id ? {
+                id: productoTicket.id,
+                nombre: productoTicket.nombre,
+                precio: productoTicket.precio,
+                cantidad: productoTicket.cantidad + 1
+            } : productoTicket)
+            
+            setListaTicket(listaTicketActualizada)
+        } else {
+            const objetoProducto = {
+                id: value.id,
+                nombre: value.nombre,
+                precio: value.precio,
+                cantidad: 1
+            }
+
+            setListaTicket([...listaTicket, objetoProducto])
+        }
+    }
+
+    const handleDownloadTicket = async(totalTicket, cantidadTicket) => {
+        
+    }
+
     return (
         <AdminContext.Provider
             value={{
-                categorias,
-                productos,
                 proveedores,
                 handleChangeModal,
                 modal,
@@ -257,7 +264,11 @@ const AdminProvider = ({children}) => {
                 setProveedorId,
                 proveedorId,
                 setInventario,
-                inventario
+                inventario,
+                handleAddItemTicket,
+                listaTicket,
+                setValue,
+                handleDownloadTicket
             }}
         >
             {children}
