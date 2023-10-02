@@ -1,16 +1,22 @@
 'use client'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import useFaster from "../hooks/useFaster"
 
-const FormularioCantidad = ({ producto }) => {
+const FormularioCantidad = ({ producto, tipoButton }) => {
     const [cantidad, setCantidad] = useState(1)
 
-    const { handleAgregarCarrito } = useFaster()
+    const { handleAgregarCarrito, actualizarProducto } = useFaster()
+
+    useEffect(() => {
+        if(producto?.cantidadOProductos) {
+            setCantidad(producto.cantidadOProductos)
+        }
+    }, [])
 
     return (
-        <div className="flex flex-col">
-            <p>Cantidad</p>
-            <div className="flex gap-5">
+        <div className="flex flex-col items-start">
+            {!tipoButton && ( <p>Cantidad</p> )}
+            <div className="flex gap-2">
             <button 
                     type="button" 
                     onClick={() => {
@@ -37,15 +43,26 @@ const FormularioCantidad = ({ producto }) => {
                     </svg>
                 </button>
             </div>
+
             {producto.inventario <= 0 && ( <p className="text-2xl text-red-600 font-bold mt-10">Producto no disponible por el momento</p> )}
 
-            <button 
-                onClick={() => handleAgregarCarrito(producto, cantidad)}
-                className={`${producto.inventario <= 0 ? 'bg-indigo-100 text-indigo-500' : 'bg-amber-500 text-white hover:bg-amber-600'} w-80 py-2 px-5 rounded-xl font-bold mt-10 md`}
-                disabled={producto.inventario <= 0}
-            >
-                Agregar al carrito
-            </button>
+            {!tipoButton ? (
+                <button 
+                    onClick={() => handleAgregarCarrito(producto, cantidad)}
+                    className={`${producto.inventario <= 0 ? 'bg-indigo-100 text-indigo-500' : 'bg-amber-500 text-white hover:bg-amber-600'} w-80 py-2 px-5 rounded-xl font-bold mt-10 md`}
+                    disabled={producto.inventario <= 0}
+                >
+                    Agregar al carrito
+                </button>
+            ) : (
+                <button 
+                    onClick={() => actualizarProducto(producto, cantidad)}
+                    className={`${producto.inventario <= 0 ? 'bg-indigo-100 text-indigo-500' : 'bg-blue-800 text-white hover:bg-blue-950'} text-3xl w-40 py-2 rounded-xl font-bold mt-5`}
+                    disabled={producto.inventario <= 0}
+                >
+                    Guardar
+                </button>
+            )}
         </div>
     )
 }

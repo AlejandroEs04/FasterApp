@@ -1,8 +1,11 @@
 'use client'
-import axios from "axios";
+import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
+import axios from "axios";
+import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify"
+
 
 const FasterContext = createContext()
 
@@ -11,6 +14,8 @@ const FasterProvider = ({children}) => {
     const [productos, setProductos] = useState(null)
     const [sideBarContainer, setSideBarContainer] = useState(false)
     const [form, setForm] = useState(false)
+    const [user, setUser] = useState({})
+    const [carrito, setCarrito] = useState([])
 
     // Crear Cuenta
     const [nombre, setNombre] = useState('')
@@ -26,6 +31,7 @@ const FasterProvider = ({children}) => {
     const [estado, setEstado] = useState('')
 
     const { data: session } = useSession()
+    const router = useRouter()
 
     const obtenerCategorias = async() => {
         const { data } = await axios(`http://localhost:3000/api/categorias`)
@@ -61,7 +67,6 @@ const FasterProvider = ({children}) => {
         }
 
         try {
-
             const res = await axios.post(`/api/user/${await session.user.id}/carrito`, {
                 data: {
                     productoCarrito
@@ -70,8 +75,48 @@ const FasterProvider = ({children}) => {
 
             toast.success("Producto Agregado Al Carrito")
         } catch (err) {
-            console.log(err)
+            toast.error("Necesitas iniciar sesion para guardar en el carrito")
+
+            setTimeout(() => {
+                signIn()
+            }, 1500)
+            
         }
+    }
+
+    const getCarrito = async() => {
+        if(session) {
+            try {
+                const { data } = await axios(`/api/user/${await session.user.id}/carrito`)
+
+                const productosCarrito = [
+                    data.carrito.map(productoCarrito => {
+                        const productoFiltro = productos.filter(producto => producto.id === productoCarrito.productoId)
+
+                        const productoCarritoAct = {
+                            ...productoCarrito,
+                            productoNombre: productoFiltro[0].nombre,
+                            productoImg: productoFiltro[0].imagen,
+                            productoPrecio: productoFiltro[0].precio,
+                            inventario: productoFiltro[0].inventario,
+                        }
+
+                        return productoCarritoAct
+                    })
+                ]
+
+                setCarrito(productosCarrito[0])
+            } catch (err) {
+                console.log(err)
+            }
+        } else {
+            router.push('/')
+        }
+        
+    }
+
+    const actualizarProducto = () => {
+
     }
 
     return (
@@ -102,7 +147,10 @@ const FasterProvider = ({children}) => {
                 setCP,
                 setCiudad,
                 setEstado,
-                handleAgregarCarrito
+                handleAgregarCarrito,
+                getCarrito,
+                actualizarProducto,
+                carrito
             }}
         >
             {children}

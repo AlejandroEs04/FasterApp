@@ -3,7 +3,6 @@ import ClienteListadoProductos from '../components/ClienteListadoProductos'
 import SliderContainer from '../components/SliderContainer'
 
 export default function Home() {
-
   return (
     <main>
         <div>

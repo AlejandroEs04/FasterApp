@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import ToastContenedor from '../components/ToastContenedor'
 import SideBar from '../components/SideBar'
 import Footer from '../components/Footer'
+import Script from 'next/script';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['100', '300', '400', '500', '700', '900']  })
 
@@ -38,6 +39,8 @@ export default function RootLayout({ children }) {
           </body>
         </FasterProvider>
       </Providers>
+
+      <Script src='https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID' />
     </html>
   )
 }
