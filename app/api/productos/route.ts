@@ -20,20 +20,18 @@ export const POST = async (req: Request, res: Response) => {
 
     const item = await req.json()
 
-    console.log(item)
-
     try {
         const producto = await prisma.producto.create({
             data: {
                 nombre: item.nombre,
-                precio: item.precioNum,
-                costo: item.costoNum,
+                precio: +item.precio,
+                costo: +item.costo,
                 imagen: item.url,
                 descripcion: item.descripcion,
-                iva: item.ivaNum,
-                categoriaId: item.categoriaIdNum,
-                proveedorId: item.proveedorIdNum,
-                inventario: item.inventarioNum
+                iva: +item.iva,
+                categoriaId: +item.categoriaId,
+                proveedorId: +item.proveedorId,
+                inventario: +item.inventario
             }
         })
         return NextResponse.json({message: 'OK'}, { status: 200 })

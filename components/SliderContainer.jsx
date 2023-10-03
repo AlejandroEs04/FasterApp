@@ -9,33 +9,33 @@ const imagenes = [
 
 const SliderContainer = () => {
   return (
-    <>
+    <div>
       <HeroSlider
-        height={'50vh'}
-        autoplay
+        height={'40vh'}
         controller={{
           initialSlide: 2,
           slidingDuration: 100,
-          slidingDelay: 100,
         }}
       >  
         <Overlay>
-          <div className="flex flex-col gap-5 justify-center items-center h-full py-80 backdrop-blur-sm">
+          <div className="flex flex-col gap-5 justify-center items-center h-full backdrop-blur-sm">
             <h1 className="uppercase font-bold text-7xl text-blue-900">Bienvenidos a</h1>
             <h2 className="uppercase font-bold text-7xl text-amber-500">FasterShop</h2>
           </div>
         </Overlay>
 
-        {imagenes?.map(imagen => (
-          <Slide 
-            background={{
-              backgroundImageSrc: imagen
-            }}
-            key={imagen}
-          />
-        ))}
+        {imagenes.map(imagen => 
+          (
+            <Slide 
+              background={{
+                backgroundImageSrc: imagen,
+              }}
+              key={imagen}
+            />
+          )
+        )}
       </HeroSlider>
-    </>
+    </div>
   )
 }
 

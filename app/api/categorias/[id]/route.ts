@@ -8,16 +8,16 @@ export async function GET (
     { params }: { params: { id: string } }
 ) {
 
-    const elementoId = Number(params.id)
+    const elementoId = params.id
 
     try {
-        const producto = await prisma.producto.findMany({
+        const categoria = await prisma.categoria.findMany({
             where: {
-                id: elementoId
+                id: +elementoId
             }
         })
         
-        return NextResponse.json({message: 'OK', producto}, { status: 200 })
+        return NextResponse.json({message: 'OK', categoria}, { status: 200 })
     } catch (error) {
         return NextResponse.json({message: 'Error', error}.error, {
             status: 500,
@@ -29,27 +29,20 @@ export async function PUT (
     request: Request,
     { params }: { params: { id: string } }
 ) {
-    const elementoId = Number(params.id)
+    const elementoId = params.id
     const item = await request.json()
 
     try {
-        const producto = await prisma.producto.update({
+        const categoria = await prisma.categoria.update({
             where: {
-                id: elementoId,
+                id: +elementoId,
             },
             data: {
                 nombre: item.nombre,
-                precio: +item.precio,
-                costo: +item.costo,
-                imagen: item.urlImage,
-                descripcion: item.descripcion,
-                iva: +item.iva,
-                categoriaId: +item.categoriaId,
-                proveedorId: +item.proveedorId,
-                inventario: +item.inventario
+                icono: item.urlImage,
             }
         })
-        return NextResponse.json({message: 'OK', producto}, { status: 200 })
+        return NextResponse.json({message: 'OK', categoria}, { status: 200 })
     } catch (err) {
         console.log(err)
         return NextResponse.json({message: 'Error', err}.err, {

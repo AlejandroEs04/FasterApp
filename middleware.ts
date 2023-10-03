@@ -16,8 +16,8 @@ export default withAuth(
 
 export const config = {
     matcher: [
-        "/usuario:path*",
-        "/carrito",
-        "/api/user/:path*"
+        "/usuario/:path*",
+        "/api/user/:path*",
+        "/admin/:path*"
     ]
 }

@@ -25,21 +25,22 @@ const FormularioProductos = () => {
         setCategoriaId, 
         categoriaId,
         setProveedorId, 
-        proveedorId
+        proveedorId,
+        elementoId
     } = useAdmin()
 
     const { categorias } = useFaster()
 
     const comprobarInfo = useCallback(() => {
-        return imagen === null || nombre === '' || nombre.length < 3 || costo <= 0 || precio <= 0 || iva <= 0 || descripcion.length < 20 || descripcion === '' || inventario <= 0 || proveedorId <= 0 || categoriaId <= 0
-    }, [nombre, imagen, costo, precio, iva, descripcion, inventario, proveedorId, categoriaId])
+        return nombre === '' || nombre.length < 3 || costo <= 0 || precio <= 0 || iva <= 0 || descripcion.length < 20 || descripcion === '' || inventario <= 0 || proveedorId <= 0 || categoriaId <= 0
+    }, [nombre, costo, precio, iva, descripcion, inventario, proveedorId, categoriaId])
 
     useEffect(() => {
         comprobarInfo()
-    }, [nombre, imagen, costo, precio, iva, descripcion, inventario, proveedorId, categoriaId])
+    }, [nombre, costo, precio, iva, descripcion, inventario, proveedorId, categoriaId])
 
     return (
-        <form className='flex flex-col gap-5' onSubmit={handleSaveItem}>
+        <form className='flex flex-col gap-5' onSubmit={(e) => handleSaveItem(e, elementoId)}>
             <div className='flex flex-col'>
                 <label htmlFor='nombre'>Nombre del producto</label>
                 <input 
@@ -128,8 +129,9 @@ const FormularioProductos = () => {
                     <select 
                         className='border px-4 py-2 rounded-md mt-2 text-3xl bg-white' id='categoria' 
                         onChange={e => setCategoriaId(e.target.value)}
+                        value={categoriaId}
                     >
-                        <option value=''>-- SELECCIONE --</option>
+                        <option value={0}>-- SELECCIONE --</option>
                         {categorias?.map(categoria => (
                             <option 
                                 value={categoria.id} 
@@ -145,8 +147,9 @@ const FormularioProductos = () => {
                     <select 
                         className='border px-4 py-2 rounded-md mt-2 text-3xl bg-white'
                         onChange={e => setProveedorId(e.target.value)}
+                        value={proveedorId}
                     >
-                        <option value=''>-- SELECCIONE --</option>
+                        <option value={0}>-- SELECCIONE --</option>
                         {proveedores?.map(proveedor => (
                             <option 
                                 value={proveedor.id} 

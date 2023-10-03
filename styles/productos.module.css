@@ -1,0 +1,13 @@
+.listadoGridProductos {
+    display: grid;
+    justify-content: center;
+    row-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+.descripcion {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 1.8rem;
+}

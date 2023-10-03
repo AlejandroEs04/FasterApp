@@ -20,7 +20,7 @@ const AlertPopUp = () => {
 
     return (
         <Modal isOpen={alertModal} style={customStyles}>
-            <form className='flex flex-col items-center gap-5' onSubmit={handleDeleteItem}>
+            <form className='flex flex-col items-center gap-5' onSubmit={e => handleDeleteItem(e)}>
                 <p className='font-bold'>¿Seguro que quieres eliminarlo?</p>
                 <div className='flex gap-10'>
                     <button type='submit' className='px-5 py-1 rounded-md bg-red-600 text-white font-bold hover:bg-red-700'>

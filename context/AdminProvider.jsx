@@ -14,13 +14,14 @@ const AdminProvider = ({children}) => {
     const [costo, setCosto] = useState(0)
     const [descripcion, setDescripcion] = useState('')
     const [iva, setIva] = useState(0)
-    const [categoriaId, setCategoriaId] = useState(null)
-    const [proveedorId, setProveedorId] = useState(null)
+    const [categoriaId, setCategoriaId] = useState(0)
+    const [proveedorId, setProveedorId] = useState(0)
     const [inventario, setInventario] = useState(0)
     const [alertModal, setAlertModal] = useState(false)
     const [tipo, setTipo] = useState('')
     const [elementoId, setElementoId] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [urlImage, setUrlImage] = useState({})
 
     // Ticket
     const [listaTicket, setListaTicket] = useState([])
@@ -32,17 +33,66 @@ const AdminProvider = ({children}) => {
         setProveedores(data.proveedores)
     }
 
+    const getProducto = async (tipo, elementoId) => {
+        const { data } = await axios(`http://localhost:3000/api/${tipo}/${elementoId}`)
+        setNombre(data.producto[0].nombre)
+        setPrecio(data.producto[0].precio)
+        setCosto(data.producto[0].costo)
+        setIva(data.producto[0].iva)
+        setUrlImage(data.producto[0].imagen)
+        setDescripcion(data.producto[0].descripcion)
+        setCategoriaId(data.producto[0].categoriaId)
+        setProveedorId(data.producto[0].proveedorId)
+        setInventario(data.producto[0].inventario)
+    }
+
+    const getCategoria = async (tipo, elementoId) => {
+        const {data} = await axios(`http://localhost:3000/api/${tipo}/${elementoId}`)
+
+        console.log(data)
+    }
+
+
     useEffect(() => {
         obtenerProveedores()
     }, [])
 
-    const handleChangeModal = (tipo, elementoId) => {
-        setModal(!modal)
-        setTipo(tipo)
-        setElementoId(elementoId)
+    const handleChangeModal = async(tipo, elementoId) => {
+        if(elementoId) {
+            switch (tipo) {
+                case 'productos':
+                    try {
+                        setElementoId(elementoId)
+                        setTipo(tipo)
+                        await getProducto(tipo, elementoId)
+                        setModal(true)
+                    } catch (err) {
+                        console.log(err)
+                    }
+                    break;
+
+                case 'categorias': 
+                    try {
+                        setElementoId(elementoId)
+                        setTipo(tipo)
+                        await getCategoria(tipo, elementoId)
+                        setModal(true)
+                    } catch (error) {
+                        
+                    }
+                    
+            }
+            
+            return
+        } else {
+            setTipo(tipo)
+            setModal(!modal)
+            return
+        }
     }
 
-    const handleChangeAlert = (tipo, elementoId) => {
+    const handleChangeAlert = (e, tipo, elementoId) => {
+        e.preventDefault()
         setAlertModal(!alertModal)
         setTipo(tipo)
         setElementoId(elementoId)
@@ -62,10 +112,10 @@ const AdminProvider = ({children}) => {
         return data.url
     }
 
-    const handleSaveItem = (e) => {
+    const handleSaveItem = async (e, elementoId) => {
         e.preventDefault()
         if(elementoId) {
-            console.log(elementoId)
+            handleUpdateItem(tipo, elementoId)
             return
         } else {
             handleAddItem()
@@ -79,14 +129,7 @@ const AdminProvider = ({children}) => {
                 try {
                     setLoading(true)
                     const url = await uploadImage()
-                    const precioNum = Number(precio)
-                    const costoNum = Number(costo)
-                    const ivaNum = Number(iva)
-                    const categoriaIdNum = Number(categoriaId)
-                    const proveedorIdNum = Number(proveedorId)
-                    const inventarioNum = Number(inventario)
-
-                    await axios.post('/api/productos', {nombre, precioNum, costoNum, url, descripcion, ivaNum, categoriaIdNum, proveedorIdNum, inventarioNum})
+                    await axios.post('/api/productos', {nombre, precio, costo, url, descripcion, iva, categoriaId, proveedorId, inventario})
 
                     setNombre('')
                     setPrecio(0)
@@ -111,6 +154,7 @@ const AdminProvider = ({children}) => {
             case 'categorias':
                 try {
                     setLoading(true)
+                    
                     const url = await uploadImage()
 
                     await axios.post('/api/categorias', {nombre, url})
@@ -151,14 +195,52 @@ const AdminProvider = ({children}) => {
         }
     }
 
-    const handleUpdateItem = async () => {
-
-    }
-
-    const handleDeleteItem = async () => {
+    const handleUpdateItem = async (tipo, elementoId) => {
         switch (tipo) {
             case 'productos':
                 try {
+                    setLoading(true)
+                    
+                    if(imagen) {
+                        const url = await uploadImage()
+                        setUrlImage(url)
+                    }
+
+                    const info = await axios.put(`/api/productos/${elementoId}`, {nombre, precio, costo, urlImage, descripcion, iva, categoriaId, proveedorId, inventario})
+                    console.log(info)
+
+                    setNombre('')
+                    setPrecio(0)
+                    setCosto(0)
+                    setIva(0)
+                    setImagen(null)
+                    setDescripcion('')
+                    setCategoriaId(0)
+                    setProveedorId(0)
+                    setInventario(0)
+                    setLoading(false)
+                    toast.success("Producto Actualizado Correctamente")
+
+                    setTimeout(() => {
+                        setModal(false)
+                    }, 500)
+
+                } catch (err) {
+                    console.log(err)
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    const handleDeleteItem = async (e) => {
+        e.preventDefault()
+        switch (tipo) {
+            case 'productos':
+                try {
+                    console.log('hola')
                     await axios.delete('/api/productos', {
                         data: {
                             elementoId
@@ -204,6 +286,7 @@ const AdminProvider = ({children}) => {
                 break;
 
             default:
+                console.log(tipo)
                 break;
         }
     }
@@ -268,7 +351,8 @@ const AdminProvider = ({children}) => {
                 handleAddItemTicket,
                 listaTicket,
                 setValue,
-                handleDownloadTicket
+                handleDownloadTicket,
+                elementoId
             }}
         >
             {children}
