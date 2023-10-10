@@ -7,11 +7,6 @@ const prisma = new PrismaClient()
 
 export async function GET(request:Request, {params} : {params: {id: number}}) {
 
-    const accessToken = request.headers.get("Token")
-
-    if(!accessToken || !verifyJwt(accessToken)) {
-        return NextResponse.json({message: "Error Unauthorized"}, { status: 401 })
-    }
 
     const user = await prisma.usuario.findFirst({
         where: {

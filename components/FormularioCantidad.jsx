@@ -5,7 +5,7 @@ import useFaster from "../hooks/useFaster"
 const FormularioCantidad = ({ producto, tipoButton }) => {
     const [cantidad, setCantidad] = useState(1)
 
-    const { handleAgregarCarrito, actualizarProducto } = useFaster()
+    const { handleAgregarCarrito, actualizarProductoCarrito } = useFaster()
 
     useEffect(() => {
         if(producto?.cantidadOProductos) {
@@ -56,7 +56,7 @@ const FormularioCantidad = ({ producto, tipoButton }) => {
                 </button>
             ) : (
                 <button 
-                    onClick={() => actualizarProducto(producto, cantidad)}
+                    onClick={() => actualizarProductoCarrito(producto, cantidad)}
                     className={`${producto.inventario <= 0 ? 'bg-indigo-100 text-indigo-500' : 'bg-blue-800 text-white hover:bg-blue-950'} text-3xl w-40 py-2 rounded-xl font-bold mt-5`}
                     disabled={producto.inventario <= 0}
                 >

@@ -22,7 +22,6 @@ function Header() {
                         <nav>
                             <Link href={'/'} className="text-white text-3xl px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link>
                             <Link href={'/productos'} className="text-white text-3xl px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link>
-                            <Link href={'/categorias'} className="text-white text-3xl px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link>
                         </nav>
                     </div>
 

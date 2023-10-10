@@ -29,9 +29,9 @@ export async function POST(request:Request, {params} : {params: {id: number}}) {
         const carrito = await prisma.carrito.create({
             data: {
                 usuarioId: +usuarioId,
-                productoId: id,
-                cantidadOProductos: cantidad,
-                subtotal: cantidad*precio,
+                productoId: +id,
+                cantidadOProductos: +cantidad,
+                subtotal: +precio,
                 fecha: Date.now().toString()
             }
         })
@@ -39,5 +39,24 @@ export async function POST(request:Request, {params} : {params: {id: number}}) {
         return NextResponse.json({message: "Ok", carrito}, { status: 200 })
     } catch (err) {
         console.log(err)
+    }
+}
+
+export async function PUT(request:Request) {
+    const {data} = await request.json()
+
+    try {
+        const carrito = await prisma.carrito.update({
+            where: {
+                id: +data.idCarrito
+            },
+            data: {
+                cantidadOProductos: +data.cantidad
+            }
+        })
+
+        return NextResponse.json({message: "Ok", carrito}, { status: 200 })
+    } catch (err) {
+        return NextResponse.json({message: 'Error'}, {status: 500})
     }
 }

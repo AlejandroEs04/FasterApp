@@ -39,8 +39,6 @@ export default function RootLayout({ children }) {
           </body>
         </FasterProvider>
       </Providers>
-
-      <Script src='https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID' />
     </html>
   )
 }

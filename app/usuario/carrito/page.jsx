@@ -9,23 +9,23 @@ const CarritoPage = () => {
     const [cant, setCant] = useState(0)
     const { getCarrito, carrito } = useFaster()
 
+    const getCarritoInfo = async() => {
+        await getCarrito()
+    }
+
     useEffect(() => {
         getCarritoInfo()
     }, [])
 
     useEffect(() => {
         if(carrito.length >= 1) {
-            const calculoTotal = carrito.reduce((total, productoCarrito) => total + productoCarrito.subtotal, 0)
+            const calculoTotal = carrito.reduce((total, productoCarrito) => total + (productoCarrito.productoPrecio * productoCarrito.cantidadOProductos), 0)
             setTotal(calculoTotal)
     
             const calculoCant = carrito.reduce((cantidad, productoCarrito) => cantidad + productoCarrito.cantidadOProductos, 0)
             setCant(calculoCant)
         }
     },[carrito])
-
-    const getCarritoInfo = async() => {
-        await getCarrito()
-    }
 
     return (
         <div className="contenedor">

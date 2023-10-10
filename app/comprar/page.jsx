@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import useFaster from "../../hooks/useFaster"
 import ProductosCarrito from "../../components/ProductosCarrito"
 import SeccionTotal from "../../components/SeccionTotal"
+import DireccionContainer from '../../components/DireccionContainer'
 
 const ComprarPage = () => {
     const [total, setTotal] = useState(0)
@@ -35,11 +36,13 @@ const ComprarPage = () => {
                         <h2 className="text-amber-500 font-extrabold text-5xl">Productos</h2>
                         <ProductosCarrito 
                             carrito={carrito}
+                            compraSection={true}
                         />
                     </div>
 
                     <div className='flex flex-col w-full px-4'>
                         <h2 className="text-amber-500 font-extrabold text-5xl">Direccion</h2>
+                        <DireccionContainer />
                     </div>
                 </div>
 

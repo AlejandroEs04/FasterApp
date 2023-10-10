@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 import FormularioCantidad from "./FormularioCantidad"
 import { formatearDinero } from "../helpers"
 
-const ProductoCarrito = ({producto}) => {
+const ProductoCarrito = ({producto, compraSection}) => {
 
   const path = usePathname()
 
@@ -22,6 +22,12 @@ const ProductoCarrito = ({producto}) => {
       <div className="flex flex-col text-start items-start w-4/5">
         <p><span className="font-bold text-3xl">Nombre:</span> {producto.productoNombre}</p>
         <p className="font-bold text-3xl">Precio: <span className="text-amber-500">{formatearDinero(producto.productoPrecio)}</span></p>
+        {compraSection && (
+          <>
+            <p className="font-bold text-3xl">Cantidad: <span className="text-amber-500">{producto.cantidadOProductos} productos</span></p>
+            <p className="font-bold mt-5 text-4xl">Subtotal: <span className="text-blue-900">{formatearDinero(producto.productoPrecio*producto.cantidadOProductos)}</span></p>
+          </>
+        )}
         
         {path !== '/comprar' && (
           <div className="mt-5">

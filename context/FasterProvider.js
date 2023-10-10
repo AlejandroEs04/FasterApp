@@ -33,19 +33,25 @@ const FasterProvider = ({children}) => {
     const { data: session } = useSession()
     const router = useRouter()
 
-    const obtenerCategorias = async() => {
+    const getCategorias = async() => {
         const { data } = await axios(`http://localhost:3000/api/categorias`)
         setCategorias(data.categorias)
     }
 
-    const obtenerProductos = async() => {
+    const getProductos = async() => {
         const { data } = await axios(`http://localhost:3000/api/productos`)
         setProductos(data.productos)
     }
 
+    const getDireccion = async() => {
+        const { data } = await axios(`http://localhost:3000/api/user/${await session.user.id}`)
+
+        console.log(data)
+    }
+
     useEffect(() => {
-        obtenerCategorias()
-        obtenerProductos()
+        getCategorias()
+        getProductos()
     }, [])
 
     const handleCreateAccount = () => {
@@ -60,20 +66,41 @@ const FasterProvider = ({children}) => {
         setForm(!form)
     }
 
-    const handleAgregarCarrito = async({categoriaId, descripcion, inventario, iva, costo, proveedorId, ...producto}, cantidad) => {
+    const handleAgregarCarrito = async({categoriaId, descripcion, inventario, iva, costo, proveedorId, nombre, imagen, ...producto}, cantidad) => {
         const productoCarrito = {
             ...producto,
             cantidad: cantidad
         }
 
         try {
-            const res = await axios.post(`/api/user/${await session.user.id}/carrito`, {
-                data: {
-                    productoCarrito
-                }
-            })
+            const carrito = await axios(`/api/user/${await session.user.id}/carrito`)
+            const carritoArray = await carrito.data.carrito
 
-            toast.success("Producto Agregado Al Carrito")
+            const productoRepetido = await carritoArray?.filter(producto => producto.productoId === productoCarrito.id)
+
+            if(productoRepetido.length > 0) {
+                const res = await axios.put(`/api/user/${await session.user.id}/carrito`, {
+                    data: {
+                        idCarrito: productoRepetido[0].id,
+                        cantidad: productoCarrito.cantidad
+                    }
+                })
+
+                if(res) {
+                    toast.success("Producto Actualizado")
+                }
+                
+            } else {
+                const res = await axios.post(`/api/user/${await session.user.id}/carrito`, {
+                    data: {
+                        productoCarrito
+                    }
+                })
+
+                if(res) {
+                    toast.success("Producto Agregado Al Carrito")
+                }
+            }
         } catch (err) {
             toast.error("Necesitas iniciar sesion para guardar en el carrito")
 
@@ -85,7 +112,11 @@ const FasterProvider = ({children}) => {
     }
 
     const getCarrito = async() => {
-        if(session) {
+        const userId = await session?.user?.id
+
+        console.log(userId)
+
+        /**if(session) {**/
             try {
                 const { data } = await axios(`/api/user/${await session.user.id}/carrito`)
 
@@ -109,14 +140,35 @@ const FasterProvider = ({children}) => {
             } catch (err) {
                 console.log(err)
             }
-        } else {
+        /**} else {
             router.push('/')
-        }
+        }*/
         
     }
 
-    const actualizarProducto = () => {
+    const actualizarProductoCarrito = async({cantidadOProductos, ...producto}, cantidadAct) => {
 
+        const productoActualizado = {
+            ...producto,
+            cantidadOProductos: cantidadAct
+        }
+
+        try {
+            const pedidoActualizado = carrito.map(productoCarrito => producto.productoId === productoCarrito.productoId ? productoActualizado : productoCarrito )
+            setCarrito(pedidoActualizado)
+            const res = await axios.put(`/api/user/${await session.user.id}/carrito`, {
+                data: {
+                    idCarrito: producto.id,
+                    cantidad: cantidadAct
+                }
+            })
+
+            if(res) {
+                toast.success("Producto Actualizado")
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -149,8 +201,9 @@ const FasterProvider = ({children}) => {
                 setEstado,
                 handleAgregarCarrito,
                 getCarrito,
-                actualizarProducto,
-                carrito
+                actualizarProductoCarrito,
+                carrito,
+                getDireccion
             }}
         >
             {children}
