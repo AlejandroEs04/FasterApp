@@ -6,12 +6,30 @@ import SeccionTotal from "../../components/SeccionTotal"
 import DireccionContainer from '../../components/DireccionContainer'
 
 const ComprarPage = () => {
+    const [direccion, setDireccion] = useState({})
     const [total, setTotal] = useState(0)
     const [cant, setCant] = useState(0)
-    const { getCarrito, carrito } = useFaster()
+    const [envio, setEnvio] = useState(0)
+    const { getCarrito, getDireccion, carrito } = useFaster()
+
+    const getCarritoInfo = async() => {
+        await getCarrito()
+    }
+
+    const getDireccionObject = async() => {
+        const direccion = await getDireccion()
+        setDireccion(direccion?.user)
+
+        if(direccion?.user.ciudad === 'Apodaca' || direccion?.user.ciudad === 'General Escobedo' || direccion?.user.ciudad === 'Guadalupe' || direccion?.user.ciudad === 'San Nicolas de los Garza' || direccion?.user.ciudad === 'Monterrey' || direccion?.user.ciudad === 'San Pedro Garza Garcia' || direccion?.user.ciudad === 'Santa Catarina') {
+            setEnvio(59)
+        } else {
+            setEnvio(99)
+        }
+    }
 
     useEffect(() => {
         getCarritoInfo()
+        getDireccionObject()
     }, [])
 
     useEffect(() => {
@@ -23,10 +41,6 @@ const ComprarPage = () => {
             setCant(calculoCant)
         }
     },[carrito])
-
-    const getCarritoInfo = async() => {
-        await getCarrito()
-    }
 
     return (
         <div className="contenedor">
@@ -42,7 +56,9 @@ const ComprarPage = () => {
 
                     <div className='flex flex-col w-full px-4'>
                         <h2 className="text-amber-500 font-extrabold text-5xl">Direccion</h2>
-                        <DireccionContainer />
+                        <DireccionContainer 
+                            direccion={direccion}
+                        />
                     </div>
                 </div>
 
@@ -51,7 +67,7 @@ const ComprarPage = () => {
                     cant={cant}
                     carrito={carrito}
                     btn={false}
-                    envio={59}
+                    envio={envio}
                 />
             </div>
         </div>

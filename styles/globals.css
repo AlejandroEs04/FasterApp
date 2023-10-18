@@ -43,19 +43,24 @@ a {
   color: var(--black);
   transition: all ease-in-out 0.2s;
 }
-.contenedor {
+.contenedor, .contenedorCarrito, .contenedorUser {
   text-align: center;
-  padding: 3rem 6%;
+  padding: 3rem 0.5rem;
 }
 .contenedorLogin {
   padding: 3rem 6%;
 }
-.contenedorUser {
-  padding: 3rem 6%;
+@media (min-width: 640px) {
+  .contenedor, .contenedorCarrito {
+    padding: 3rem 5%;
+  }
 }
 @media (min-width: 768px) {
   .contenedor {
     padding: 3rem 10%;
+  }
+  .contenedorCarrito {
+    padding: 3rem 5%;
   }
   .contenedorLogin {
     padding: 3rem 35%;

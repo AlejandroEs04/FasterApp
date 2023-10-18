@@ -7,6 +7,8 @@ const prisma = new PrismaClient()
 
 export async function GET(request:Request, {params} : {params: {id: number}}) {
 
+    const { id } = params
+
 
     const user = await prisma.usuario.findFirst({
         where: {
@@ -28,3 +30,4 @@ export async function GET(request:Request, {params} : {params: {id: number}}) {
 
     return NextResponse.json({message: "Ok", user}, { status: 200 })
 }
+

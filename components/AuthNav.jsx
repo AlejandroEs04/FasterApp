@@ -1,9 +1,11 @@
 'use client'
 import Link from 'next/link'
 import { useSession, signOut, signIn } from 'next-auth/react'
+import useFaster from '../hooks/useFaster'
 
 const AuthNav = () => {
     const { data: session } = useSession()
+    const { handleChangeSideBar } = useFaster()
 
     return (
         <div className='flex flex-col gap-10 items-end md:flex-row md:items-center'>

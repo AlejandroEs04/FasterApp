@@ -47,7 +47,10 @@ const LogUpPage = () => {
     
             <form 
                 className="flex flex-col gap-5"
-                onSubmit={handleCreateAccount}
+                onSubmit={e => {
+                    e.preventDefault()
+                    handleCreateAccount()
+                }}
             >
                 <div className="flex gap-5">
                     <div className="flex flex-col text-start gap-2">
@@ -118,7 +121,14 @@ const LogUpPage = () => {
                         onClick={handleChangeForm}
                     >+ Agregar Direccion</button>
                 ) : (
-                    <FormularioDirrecion />
+                    <div className='mt-5'>
+                        <button  
+                            type="button"
+                            className="text-2xl text-start text-gray-400 hover:text-gray-700"
+                            onClick={handleChangeForm}
+                        >- No Agregar Direccion</button>
+                        <FormularioDirrecion />
+                    </div>
                 )}
 
                 

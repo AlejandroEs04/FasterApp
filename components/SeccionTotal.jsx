@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation'
 import { formatearDinero } from '../helpers'
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 
 const SeccionTotal = ({ cant, total, envio, carrito, textoBtn, btn }) => {
     const router = useRouter()
@@ -28,10 +29,35 @@ const SeccionTotal = ({ cant, total, envio, carrito, textoBtn, btn }) => {
                             </div>
                         </div>
 
-                        <div className='flex flex-col font-bold border-t-2 pt-2'>
+                        <div className='flex flex-col font-bold border-t-2 pt-2 mb-5'>
                             <p>Total: </p>
                             <p className='text-blue-900 text-4xl'>{formatearDinero(envio + total)}</p>
                         </div>
+
+                            <PayPalScriptProvider
+                                options={{
+                                    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
+                                }}
+                            >
+                                <PayPalButtons 
+                                    createOrder={async() => {
+                                        const res = await fetch('/api/checkout', {
+                                            method: "POST"
+                                        })
+
+                                        const order = await res.json();
+                                        return order.id
+                                    }}
+
+                                    onApprove={(data, actions) => {
+                                        actions.order.capture(data)
+                                    }}
+
+                                    onCancel={(data) => {
+                                        console.log(data)
+                                    }}
+                                />
+                            </PayPalScriptProvider>
                     </>
                 ) : (
                     <>
@@ -55,5 +81,11 @@ const SeccionTotal = ({ cant, total, envio, carrito, textoBtn, btn }) => {
         </div>
     )
 }
+
+/**
+    createOrder={() => {}}
+    onCancel={() => {}}
+    onApprove={() => {}}
+ */
 
 export default SeccionTotal

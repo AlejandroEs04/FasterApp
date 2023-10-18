@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from 'bcrypt'
+import generarId from '../../../helpers/generarId'
 
 const prisma = new PrismaClient()
 
@@ -10,6 +11,7 @@ interface RequestBody {
     correo: string
     password: string
     numero: string 
+    token: string
     calleNumero: string
     colonia: string
     codigoPostal: number
@@ -20,22 +22,39 @@ interface RequestBody {
 export async function POST(request:Request) {
     const body:RequestBody = await request.json()
 
-    const user = await prisma.usuario.create({
-        data: {
-            nombre: body.nombre,
-            apellido: body.apellido,
-            correo: body.correo,
-            password: await bcrypt.hash(body.password,10),
-            numero: body.numero,
-            calleNumero: !body.calleNumero ? "" : body.calleNumero,
-            colonia: !body.colonia ? "" : body.colonia,
-            codigoPostal: !body.codigoPostal ? 0 : body.codigoPostal,
-            ciudad: !body.ciudad ? "" : body.ciudad,
-            estado: !body.estado ? "" : body.estado
+
+    const usuario = await prisma.usuario.findFirst({
+        where: {
+            correo: body.correo
         }
     })
 
-    const { password, ...result } = user;
+    if(usuario) {
+        return NextResponse.json({msg: "El usuario ya existe"})
+    }
 
-    return NextResponse.json({result}, { status: 200 })
+    try {
+        const user = await prisma.usuario.create({
+            data: {
+                nombre: body.nombre,
+                apellido: body.apellido,
+                correo: body.correo,
+                password: await bcrypt.hash( body.password , 10),
+                numero: body.numero,
+                token: generarId(),
+                calleNumero: !body.calleNumero ? "" : body.calleNumero,
+                colonia: !body.colonia ? "" : body.colonia,
+                codigoPostal: !body.codigoPostal ? 0 : body.codigoPostal,
+                ciudad: !body.ciudad ? "" : body.ciudad,
+                estado: !body.estado ? "" : body.estado, 
+            }
+        })
+
+        const { password, ...result } = user;
+
+        return NextResponse.json({msg: "Ok", body}, { status: 200 })
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({msg: "Error", error}, { status: 500 })
+    }
 }

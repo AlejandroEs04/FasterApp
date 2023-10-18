@@ -42,20 +42,22 @@ model Proveedor {
 
 model Usuario {
   id Int @id @default(autoincrement())
-  nombre String?
+  nombre String
   apellido String
   correo String @unique
-  password String 
-  numero String 
-  calleNumero String @default("")
-  colonia String @default("")
-  codigoPostal Int @default(0)
-  ciudad String @default("")
-  estado String @default("")
+  password String
+  numero String
+  token String
+  confirmado Boolean @default(false)
+  calleNumero String 
+  colonia String 
+  codigoPostal Int 
+  ciudad String 
+  estado String 
+  admin Boolean @default(false)
   compras Compra[]
   carrito Carrito[]
   paypal Paypal[]
-  admin Boolean @default(false)
 }
 
 model Compra {

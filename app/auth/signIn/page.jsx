@@ -59,9 +59,16 @@ const LogInPage = () => {
           </button>
         </form>
 
-        <div className="flex flex-col gap-2 text-start">
-          <p className="text-2xl">¿Aun no tienes cuenta?</p>
-          <Link href={'/auth/signUp'} className="text-2xl font-bold text-amber-500 hover:text-amber-600" >Crear cuenta</Link>
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2 text-start">
+            <p className="text-2xl">¿Aun no tienes cuenta?</p>
+            <Link href={'/auth/signUp'} className="text-2xl font-bold text-amber-500 hover:text-amber-600" >Crear cuenta</Link>
+          </div>
+
+          <div className="flex flex-col gap-2 text-start">
+            <p className="text-2xl">¿Olvidaste tu contrasena?</p>
+            <Link href={'/auth/recovery-password'} className="text-2xl font-bold text-amber-500 hover:text-amber-600" >Recuperar contrasena</Link>
+          </div>
         </div>
       </div>
     </div>

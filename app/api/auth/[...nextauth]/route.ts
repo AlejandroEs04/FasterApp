@@ -30,10 +30,12 @@ const handler = NextAuth({
               const user = await res.json()
 
               if (user) {
-                // Any object returned will be saved in `user` property of the JWT
-                return user.result
+                if(!user.result.confirmado) {
+                  return null
+                }
+                
+                return await user.result
               } else {
-                // If you return null then an error will be displayed advising the user to check their details.
                 return null
         
                 // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
@@ -44,13 +46,12 @@ const handler = NextAuth({
     pages: {
       signIn: "/auth/signIn",
       newUser: "/auth/newuser",
-      
     },
     callbacks: {
       async session({ session, user, token }) {
-        session.user = token as any
+        session.user = await token as any
 
-        return session
+        return await session
       },
       async jwt({ token, user }) {
         return {

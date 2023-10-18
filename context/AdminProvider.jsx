@@ -23,6 +23,8 @@ const AdminProvider = ({children}) => {
     const [loading, setLoading] = useState(false)
     const [urlImage, setUrlImage] = useState({})
 
+    const [compras, setCompras] = useState([])
+
     // Ticket
     const [listaTicket, setListaTicket] = useState([])
     const [value, setValue] = useState(null)
@@ -52,9 +54,16 @@ const AdminProvider = ({children}) => {
         console.log(data)
     }
 
+    const getCompras = async() => {
+        const { data } = await axios('http://localhost:3000/api/compras');
+
+        setCompras(data.compras);
+    }
+
 
     useEffect(() => {
-        obtenerProveedores()
+        obtenerProveedores();
+        getCompras();
     }, [])
 
     const handleChangeModal = async(tipo, elementoId) => {
@@ -352,7 +361,8 @@ const AdminProvider = ({children}) => {
                 listaTicket,
                 setValue,
                 handleDownloadTicket,
-                elementoId
+                elementoId,
+                compras
             }}
         >
             {children}

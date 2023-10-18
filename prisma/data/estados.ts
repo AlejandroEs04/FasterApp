@@ -1,4 +1,4 @@
-[
+export const estados = [
     { "clave": "AGS", "nombre": "AGUASCALIENTES" },
     { "clave": "BC",  "nombre": "BAJA CALIFORNIA" },
     { "clave": "BCS", "nombre": "BAJA CALIFORNIA SUR" },

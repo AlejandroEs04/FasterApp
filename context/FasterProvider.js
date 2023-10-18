@@ -5,7 +5,7 @@ import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify"
-
+import generarId from "../helpers/generarId";
 
 const FasterContext = createContext()
 
@@ -14,7 +14,6 @@ const FasterProvider = ({children}) => {
     const [productos, setProductos] = useState(null)
     const [sideBarContainer, setSideBarContainer] = useState(false)
     const [form, setForm] = useState(false)
-    const [user, setUser] = useState({})
     const [carrito, setCarrito] = useState([])
 
     // Crear Cuenta
@@ -34,19 +33,22 @@ const FasterProvider = ({children}) => {
     const router = useRouter()
 
     const getCategorias = async() => {
-        const { data } = await axios(`http://localhost:3000/api/categorias`)
+        const { data } = await axios(`/api/categorias`)
         setCategorias(data.categorias)
     }
 
     const getProductos = async() => {
-        const { data } = await axios(`http://localhost:3000/api/productos`)
+        const { data } = await axios(`/api/productos`)
         setProductos(data.productos)
     }
 
     const getDireccion = async() => {
-        const { data } = await axios(`http://localhost:3000/api/user/${await session.user.id}`)
-
-        console.log(data)
+        try {
+            const { data } = await axios(`/api/user/${await session?.user?.id}`)
+            return data
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
@@ -54,8 +56,24 @@ const FasterProvider = ({children}) => {
         getProductos()
     }, [])
 
-    const handleCreateAccount = () => {
-        console.log("creando...")
+    const handleCreateAccount = async() => {
+        try {
+            const res = await axios.post(`/api/user`, {
+                nombre,
+                apellido, 
+                correo,
+                password, 
+                numero,
+                token: generarId()
+            });
+
+            if(res) {
+                toast.success(res.msg);
+                router.push('/');
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const handleChangeSideBar = () => {
@@ -111,10 +129,33 @@ const FasterProvider = ({children}) => {
         }
     }
 
+    const addDireccion = async() => {
+        try {
+            const userId = await session?.user?.id
+
+            const direccion = {
+                calleNumero,
+                colonia,
+                CP,
+                ciudad, 
+                estado
+            }
+
+            const res = await axios.put(`/api/user/${userId}/direccion`, {
+                data: {
+                    direccion
+                }
+            })
+
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
     const getCarrito = async() => {
         const userId = await session?.user?.id
-
-        console.log(userId)
 
         /**if(session) {**/
             try {
@@ -197,13 +238,16 @@ const FasterProvider = ({children}) => {
                 setCalleNumero, 
                 setColonia,
                 setCP,
+                estado, 
+                ciudad,
                 setCiudad,
                 setEstado,
                 handleAgregarCarrito,
                 getCarrito,
                 actualizarProductoCarrito,
                 carrito,
-                getDireccion
+                getDireccion,
+                addDireccion
             }}
         >
             {children}

@@ -43,7 +43,6 @@ const UsuarioPage = () => {
                 <h3 className='font-bold text-3xl'>Direccion</h3>
                 <p className='text-2xl text-blue-900'>Mira y actualiza tu direccion o instrucciones de entregas</p>
             </div>
-            
         </Link>
       </div>
     </div>
