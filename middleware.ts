@@ -19,5 +19,6 @@ export const config = {
         "/usuario/:path*",
         "/api/user/[id]/:path*",
         "/admin/:path*",
+        '/comprar/:path*'
     ]
 }

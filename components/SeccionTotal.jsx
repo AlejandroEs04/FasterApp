@@ -1,11 +1,14 @@
+'use client'
 import { useRouter } from 'next/navigation'
 import { formatearDinero } from '../helpers'
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
+import useFaster from '../hooks/useFaster'
 
 const SeccionTotal = ({ cant, total, envio, carrito, textoBtn, btn }) => {
     const router = useRouter()
+    const { createOrderPaypal, addPurchase } = useFaster()
     return (
-        <div className='flex flex-col w-full md:w-2/6 px-4'>
+        <div className='flex flex-col px-4'>
             <h2 className="text-5xl text-blue-950 text-center">Proceder con el pago</h2>
             <div className='bg-white text-start gap-2 rounded-xl flex flex-col mt-5 p-5'>
                 <div className='flex flex-col font-bold'>
@@ -41,15 +44,13 @@ const SeccionTotal = ({ cant, total, envio, carrito, textoBtn, btn }) => {
                             >
                                 <PayPalButtons 
                                     createOrder={async() => {
-                                        const res = await fetch('/api/checkout', {
-                                            method: "POST"
-                                        })
-
-                                        const order = await res.json();
-                                        return order.id
+                                        const costo = await total + envio
+                                        const id = await createOrderPaypal(costo, cant)
+                                        return id
                                     }}
 
-                                    onApprove={(data, actions) => {
+                                    onApprove={async(data, actions) => {
+                                        await addPurchase(data);
                                         actions.order.capture(data)
                                     }}
 

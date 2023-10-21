@@ -8,7 +8,7 @@ const enviroment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 const client = new paypal.core.PayPalHttpClient(enviroment);
 
 export async function POST(req, res) {
-    console.log(res)
+    const { data } = await req.json()
     let request = new paypal.orders.OrdersCreateRequest();
 
     request.requestBody({
@@ -16,8 +16,8 @@ export async function POST(req, res) {
         "purchase_units": [
             {   
                 "amount": {
-                    "currency_code": "USD",
-                    "value": "500"
+                    currency_code: "USD",
+                    value: data.total
                 },
                 "description": "Compra de un producto"
             }

@@ -14,7 +14,10 @@ const FasterProvider = ({children}) => {
     const [productos, setProductos] = useState(null)
     const [sideBarContainer, setSideBarContainer] = useState(false)
     const [form, setForm] = useState(false)
-    const [carrito, setCarrito] = useState([])
+    const carritoLS =  typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('carrito')) ?? [] : null
+    const [carrito, setCarrito] = useState(carritoLS)
+
+    const [direccion, setDireccion] = useState(null)
 
     // Crear Cuenta
     const [nombre, setNombre] = useState('')
@@ -43,11 +46,15 @@ const FasterProvider = ({children}) => {
     }
 
     const getDireccion = async() => {
-        try {
-            const { data } = await axios(`/api/user/${await session?.user?.id}`)
-            return data
-        } catch (error) {
-            console.log(error)
+        if(session) {
+            try {
+                const { data } = await axios(`/api/user/${await session?.user?.id}`)
+                setDireccion(data.user)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            router.push('/')
         }
     }
 
@@ -55,6 +62,14 @@ const FasterProvider = ({children}) => {
         getCategorias()
         getProductos()
     }, [])
+
+    useEffect(() => {
+        localStorage.setItem('carrito', JSON.stringify(carrito))
+    }, [carrito])
+
+    useEffect(() => {
+        localStorage.setItem('direccion', JSON.stringify(direccion))
+    }, [direccion])
 
     const handleCreateAccount = async() => {
         try {
@@ -212,6 +227,21 @@ const FasterProvider = ({children}) => {
         }
     }
 
+    const createOrderPaypal = async(total, cantidad) => {
+        const res = await axios.post('/api/checkout', {
+            data: {
+                total, 
+                cantidad
+            }
+        })
+        
+        return res.data.id
+    }
+
+    const addPurchase = async(data) => {
+
+    }
+
     return (
         <FasterContext.Provider
             value={{
@@ -247,7 +277,10 @@ const FasterProvider = ({children}) => {
                 actualizarProductoCarrito,
                 carrito,
                 getDireccion,
-                addDireccion
+                addDireccion,
+                createOrderPaypal,
+                addPurchase,
+                direccion
             }}
         >
             {children}

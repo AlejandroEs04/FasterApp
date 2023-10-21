@@ -73,6 +73,11 @@ button {
   transition: all ease-in-out 0.2s;
 }
 
+.stickyContainer {
+  position: sticky;
+  top: 0;
+}
+
 .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
   display: none;
 }

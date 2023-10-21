@@ -6,41 +6,28 @@ import SeccionTotal from "../../components/SeccionTotal"
 import DireccionContainer from '../../components/DireccionContainer'
 
 const ComprarPage = () => {
-    const [direccion, setDireccion] = useState({})
     const [total, setTotal] = useState(0)
     const [cant, setCant] = useState(0)
-    const [envio, setEnvio] = useState(0)
-    const { getCarrito, getDireccion, carrito } = useFaster()
-
-    const getCarritoInfo = async() => {
-        await getCarrito()
-    }
+    const [envio, setEnvio] = useState(99)
+    const { getDireccion, carrito, direccion } = useFaster()
 
     const getDireccionObject = async() => {
-        const direccion = await getDireccion()
-        setDireccion(direccion?.user)
-
-        if(direccion?.user.ciudad === 'Apodaca' || direccion?.user.ciudad === 'General Escobedo' || direccion?.user.ciudad === 'Guadalupe' || direccion?.user.ciudad === 'San Nicolas de los Garza' || direccion?.user.ciudad === 'Monterrey' || direccion?.user.ciudad === 'San Pedro Garza Garcia' || direccion?.user.ciudad === 'Santa Catarina') {
-            setEnvio(59)
-        } else {
-            setEnvio(99)
-        }
+        await getDireccion()
     }
 
     useEffect(() => {
-        getCarritoInfo()
         getDireccionObject()
     }, [])
 
     useEffect(() => {
         if(carrito.length >= 1) {
-            const calculoTotal = carrito.reduce((total, productoCarrito) => total + productoCarrito.subtotal, 0)
+            const calculoTotal = carrito.reduce((total, productoCarrito) => total + (productoCarrito.productoPrecio * productoCarrito.cantidadOProductos), 0)
             setTotal(calculoTotal)
     
             const calculoCant = carrito.reduce((cantidad, productoCarrito) => cantidad + productoCarrito.cantidadOProductos, 0)
             setCant(calculoCant)
         }
-    },[carrito])
+    },[])
 
     return (
         <div className="contenedor">
@@ -62,13 +49,15 @@ const ComprarPage = () => {
                     </div>
                 </div>
 
-                <SeccionTotal
-                    total={total}
-                    cant={cant}
-                    carrito={carrito}
-                    btn={false}
-                    envio={envio}
-                />
+                <div className="w-full md:w-2/6">
+                    <SeccionTotal
+                        total={total}
+                        cant={cant}
+                        carrito={carrito}
+                        btn={false}
+                        envio={envio}
+                    />
+                </div>
             </div>
         </div>
     )

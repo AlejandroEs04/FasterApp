@@ -63,7 +63,6 @@ const AdminProvider = ({children}) => {
 
     useEffect(() => {
         obtenerProveedores();
-        getCompras();
     }, [])
 
     const handleChangeModal = async(tipo, elementoId) => {
