@@ -1,10 +1,7 @@
 'use client'
 import useAdmin from '../hooks/useAdmin'
 
-const ListadoCompras = () => {
-    const { compras } = useAdmin()
-
-    console.log(compras)
+const ListadoCompras = ({compras}) => {
 
     return (
         <div className='flex flex-col mt-10 bg-white py-5 px-10 rounded-3xl gap-5'>
@@ -12,7 +9,6 @@ const ListadoCompras = () => {
                 <thead className='border-b'>
                     <tr>
                         <th className='py-2'>ID</th>
-                        <th className='py-2'>ProductoID</th>
                         <th className='py-2'>Fecha</th>
                         <th className='py-2'>Total</th>
                     </tr>
@@ -22,9 +18,8 @@ const ListadoCompras = () => {
                     {compras?.map(compra => (
                         <tr key={compra.id}>
                             <td className='font-normal py-2 border-r'>{compra.id}</td>
-                            <td className='font-normal py-2 border-r'>{compra.productoId}</td>
                             <td className='font-normal py-2 border-r'>{compra.fecha}</td>
-                            <td className='font-normal py-2 border-r'>{compra.total}</td>
+                            <td className='font-normal py-2 border-r-none'>{compra.total}</td>
                         </tr>
                     ))}
                 </tbody>

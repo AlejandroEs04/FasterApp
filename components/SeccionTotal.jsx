@@ -7,6 +7,7 @@ import useFaster from '../hooks/useFaster'
 const SeccionTotal = ({ cant, total, envio, carrito, textoBtn, btn }) => {
     const router = useRouter()
     const { createOrderPaypal, addPurchase } = useFaster()
+
     return (
         <div className='flex flex-col px-4'>
             <h2 className="text-5xl text-blue-950 text-center">Proceder con el pago</h2>
@@ -50,8 +51,8 @@ const SeccionTotal = ({ cant, total, envio, carrito, textoBtn, btn }) => {
                                     }}
 
                                     onApprove={async(data, actions) => {
-                                        await addPurchase(data);
-                                        actions.order.capture(data)
+                                        await addPurchase((total+envio), cant);
+                                        actions.order.capture(data);
                                     }}
 
                                     onCancel={(data) => {

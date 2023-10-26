@@ -60,3 +60,17 @@ export async function PUT(request:Request) {
         return NextResponse.json({message: 'Error'}, {status: 500})
     }
 }
+
+export async function DELETE(request:Request, {params} : {params: {id: number}}) {
+    try {
+        await prisma.carrito.deleteMany({
+            where: {
+                usuarioId: +params.id
+            }
+        })
+
+        return NextResponse.json({message: "Carrito eliminado correctamente"}, { status: 200 })
+    } catch (err) {
+        
+    }
+}

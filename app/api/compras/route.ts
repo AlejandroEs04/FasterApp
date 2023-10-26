@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { Pirata_One } from "next/font/google";
 
 const prisma = new PrismaClient()
+
+const reducirStock = async(productos) => {
+    
+
+    console.log(productos)
+}
 
 export const GET = async(req:Request, res:Response) => {
     try {
@@ -20,11 +27,6 @@ export const POST = async(req:Request, res:Response) => {
     const { listaTicket } = await data.buy
 
     try {
-        const productosCompra = await listaTicket.map(productoCompra => productoCompra && {
-            productoId: productoCompra.id, 
-            cantidad: productoCompra.cantidad
-        })
-
         const compra = await prisma.compra.create({
             data: {
                 fecha: new Date(fecha).toLocaleDateString(),
@@ -33,19 +35,34 @@ export const POST = async(req:Request, res:Response) => {
             }
         })
 
-        console.log(compra)
+        const productosCompra = await listaTicket.map(productoCompra => productoCompra && {
+            productoId: productoCompra.id, 
+            cantidad: productoCompra.cantidad,
+            compraId: compra.id
+        })
 
-        /**const compra = await prisma.compra.create({
-            data: {
-                fecha: new Date(fecha).toLocaleDateString(),
-                total: +data.buy.totalTicket,
-                usuarioId: +data.buy.usuarioID,
-            }
-        }) */
+        await productosCompra.map(async(producto) => {
+            const productoAntes = await prisma.producto.findFirst({
+                where: {
+                    id: producto.productoId
+                }
+            })
 
-        console.log(compra)
+            await prisma.producto.update({
+                where: {
+                    id: producto.productoId
+                }, 
+                data: {
+                    inventario: productoAntes.inventario - producto.cantidad
+                }
+            })
+        })
 
-        return NextResponse.json({message: 'OK'}, { status: 200 })
+        await prisma.productosCompra.createMany({
+            data: productosCompra
+        })
+
+        return NextResponse.json({message: 'OK', compra}, { status: 200 })
     } catch (error) {
         console.log(error)
         return NextResponse.json({message: 'Error'}, { status: 500 })

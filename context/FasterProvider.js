@@ -147,6 +147,7 @@ const FasterProvider = ({children}) => {
                 }
             }
         } catch (err) {
+            console.log(err)
             toast.error("Necesitas iniciar sesion para guardar en el carrito")
 
             setTimeout(() => {
@@ -262,8 +263,34 @@ const FasterProvider = ({children}) => {
         return res.data.id
     }
 
-    const addPurchase = async(data) => {
+    const addPurchase = async(totalTicket, cantidadTicket) => {
 
+        const listaTicket = await carrito.map(producto => producto && {
+            id: producto.productoId,
+            cantidad: producto.cantidadOProductos
+        })
+
+        const buy = {
+            listaTicket,
+            totalTicket, 
+            cantidadTicket,
+            usuarioID: await session?.user.id   
+        }
+
+        try {
+            await axios.post('/api/compras', {
+                data: {
+                    buy
+                }
+            });
+
+            await axios.delete(`/api/user/${await session?.user.id}/carrito`)
+
+            router.push('/')
+            toast.success("Compra Realizada con Exito")
+        } catch (error) {
+            console.log("error")
+        }
     }
 
     return (

@@ -9,7 +9,7 @@ import Ticket from "./Ticket";
 const TablaTicket = () => {
     const [total, setTotal] = useState(0)
     const [cant, setCant] = useState(0)
-    const {listaTicket, saveBuy} = useAdmin()
+    const {listaTicket, saveBuy, ticket, setListaTicket, setTicket} = useAdmin()
 
     useEffect(() => {
         if(listaTicket.length >= 1) {
@@ -68,13 +68,21 @@ const TablaTicket = () => {
                         Guardar Ticket
                     </button>
 
-                    <button className="bg-blue-800 hover:bg-blue-950 font-bold px-5 py-2 rounded-xl mt-10 text-white">
+                    <button 
+                        onClick={() => {
+                            setListaTicket([])
+                            setTotal(0)
+                            setCant(0)
+                            setTicket(null)
+                        }}
+                        className="bg-blue-800 hover:bg-blue-950 font-bold px-5 py-2 rounded-xl mt-10 text-white"
+                    >
                         Reiniciar Ticket
                     </button>
                 </div>
 
                 <div className="flex justify-center mt-10">
-                    {listaTicket.length > 0 && (
+                    {ticket && (
                         <Ticket 
                             total={total}
                             cantidad={cant}
