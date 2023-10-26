@@ -2,21 +2,14 @@
 import { useRef } from "react"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
+import useFaster from "../../../hooks/useFaster"
 
 const LogInPage = () => {
-
+  const {alerta, handleLogIn} = useFaster()
   const correo = useRef("")
   const pass = useRef("")
 
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    const res = await signIn("credentials", {
-      correo: correo.current,
-      password: pass.current,
-      redirect: true,
-      callbackUrl: "/"
-    })
-  }
+  
 
   return (
     <div className="flex justify-center">
@@ -51,7 +44,7 @@ const LogInPage = () => {
 
           <button
             onClick={e => 
-              onSubmit(e)
+              handleLogIn(e, pass, correo)
             }
             className="px-5 py-2 bg-blue-700 text-white font-bold rounded-lg mt-10 hover:bg-blue-800"
           >
