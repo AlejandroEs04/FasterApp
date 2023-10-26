@@ -15,23 +15,41 @@ export const GET = async(req:Request, res:Response) => {
 
 export const POST = async(req:Request, res:Response) => {
     const { data } = await req.json()
-    const fecha = Date.now()
+    const fecha = await Date.now()
 
-    const { listaTicket } = data.buy
+    const { listaTicket } = await data.buy
 
     try {
-        /**const compra = await prisma.compra.create({
+        const productosCompra = await listaTicket.map(productoCompra => productoCompra && {
+            productoId: productoCompra.id, 
+            cantidad: productoCompra.cantidad
+        })
+
+        const compra = await prisma.compra.create({
             data: {
                 fecha: new Date(fecha).toLocaleDateString(),
                 total: +data.buy.totalTicket,
                 usuarioId: +data.buy.usuarioID
             }
-        }) **/
+        })
 
-        const productoCompra = await listaTicket.map()
+        console.log(compra)
+
+        /**const compra = await prisma.compra.create({
+            data: {
+                fecha: new Date(fecha).toLocaleDateString(),
+                total: +data.buy.totalTicket,
+                usuarioId: +data.buy.usuarioID,
+            }
+        }) */
+
+        console.log(compra)
 
         return NextResponse.json({message: 'OK'}, { status: 200 })
     } catch (error) {
         console.log(error)
+        return NextResponse.json({message: 'Error'}, { status: 500 })
+        /**const err = new Error("Hubo un error")
+        return NextResponse.json({message: 'Error', err}, { status: 500 })*/
     }
 }

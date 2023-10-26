@@ -23,7 +23,7 @@ model Producto {
   proveedor Proveedor @relation( fields: [proveedorId], references: [id] )
   proveedorId Int
   inventario Int
-  ProductosComprados ProductosCompra[]
+  productosCompra ProductosCompra[]
   carrito Carrito[]
 }
 
@@ -63,19 +63,19 @@ model Compra {
   id Int @id @default(autoincrement())
   fecha String
   total Float
-  usuario Usuario @relation( fields: [usuarioId], references: [id] )
   usuarioId Int
-  productos ProductosCompra[]
+  productosCompra ProductosCompra[]
   envio Envio[]
+  usuario Usuario @relation( fields: [usuarioId], references: [id] )
 }
 
 model ProductosCompra {
   id Int @id @default(autoincrement())
-  compra Compra @relation( fields: [compraId], references: [id] )
-  compraId Int
-  producto Producto @relation( fields: [productoId], references: [id] )
   productoId Int
   cantidad Int
+  compraId Int
+  producto Producto @relation( fields: [productoId], references: [id] )
+  compra Compra @relation( fields: [compraId], references: [id] )
 }
 
 model Envio {
