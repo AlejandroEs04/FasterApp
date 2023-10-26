@@ -9,8 +9,7 @@ import Ticket from "./Ticket";
 const TablaTicket = () => {
     const [total, setTotal] = useState(0)
     const [cant, setCant] = useState(0)
-    const { productos } = useFaster()
-    const {listaTicket, handleDownloadTicket} = useAdmin()
+    const {listaTicket, saveBuy} = useAdmin()
 
     useEffect(() => {
         if(listaTicket.length >= 1) {
@@ -62,10 +61,11 @@ const TablaTicket = () => {
 
                 <div className="flex gap-10 justify-center">
                     <button 
-                        onClick={() => handleDownloadTicket(total, cant)}
+                        onClick={e => saveBuy(total, cant)}
+                        download
                         className="bg-amber-500 hover:bg-amber-600 font-bold px-5 py-2 rounded-xl mt-10 text-white"
                     >
-                        Descargar Ticket
+                        Guardar Ticket
                     </button>
 
                     <button className="bg-blue-800 hover:bg-blue-950 font-bold px-5 py-2 rounded-xl mt-10 text-white">

@@ -2,6 +2,7 @@
 import axios from "axios"
 import { toast } from "react-toastify"
 import { createContext, useState, useEffect } from "react"
+import { useSession } from "next-auth/react";
 
 const AdminContext = createContext()
 
@@ -29,6 +30,8 @@ const AdminProvider = ({children}) => {
     const [listaTicket, setListaTicket] = useState([])
     const [value, setValue] = useState(null)
     const [ticket, setTicket] = useState(null)
+
+    const { data: session } = useSession()
 
     const obtenerProveedores = async () => {
         const { data } = await axios('http://localhost:3000/api/proveedores')
@@ -321,8 +324,23 @@ const AdminProvider = ({children}) => {
         }
     }
 
-    const handleDownloadTicket = async(totalTicket, cantidadTicket) => {
-        
+    const saveBuy = async(totalTicket, cantidadTicket) => {
+        const buy = {
+            listaTicket, 
+            totalTicket, 
+            cantidadTicket,
+            usuarioID: await session?.user.id   
+        }
+
+        try {
+            const res = await axios.post('/api/compras', {
+                data: {
+                    buy
+                }
+            });
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -359,9 +377,9 @@ const AdminProvider = ({children}) => {
                 handleAddItemTicket,
                 listaTicket,
                 setValue,
-                handleDownloadTicket,
                 elementoId,
-                compras
+                compras,
+                saveBuy
             }}
         >
             {children}
