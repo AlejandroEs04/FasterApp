@@ -30,7 +30,8 @@ export async function POST(request:Request) {
     })
 
     if(usuario) {
-        return NextResponse.json({msg: "El usuario ya existe"})
+        const error = new Error("El usuario ya existe")
+        return NextResponse.json({msg: error.message}, {status: 400})
     }
 
     try {

@@ -18,17 +18,24 @@ export async function POST(request:Request) {
             correo:body.correo,
         }
     })
- 
-    if(user && ( await bcrypt.compare(body.password, user.password))) {
-        const { password, ...userInfo } = user
-        const accessToken  = signJwtAccessToken(userInfo)
-        const result = {
-            ...userInfo,
-            accessToken
-        }
 
-        return NextResponse.json({result}, { status: 200 })
-    } else {
-        return NextResponse.json(null, { status: 500 })
+    if(!user) {
+        const error = new Error("El usuario no existe")
+        return NextResponse.json({msg: error.message}, {status: 400})
     }
+
+    if(!await bcrypt.compare(body.password, user.password)) {
+        const error = new Error("La contrasena es incorrecta")
+        return NextResponse.json({msg: error.message}, {status: 400})
+    }
+
+    console.log("sigue")
+    const { password, ...userInfo } = user
+    const accessToken  = signJwtAccessToken(userInfo)
+    const result = {
+        ...userInfo,
+        accessToken
+    }
+
+    return NextResponse.json({result}, { status: 200 })
 }

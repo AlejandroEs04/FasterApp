@@ -2,7 +2,7 @@
 import { useCallback, useEffect } from 'react'
 import { signIn } from "next-auth/react"
 import useFaster from "../../../hooks/useFaster"
-import FormularioDirrecion from '../../../components/FormularioDireccion'
+import Alerta from "../../../components/Alerta"
 
 const LogUpPage = () => {
     const { 
@@ -21,21 +21,17 @@ const LogUpPage = () => {
         handleCreateAccount,
         calleNumero,
         colonia,
-        CP
+        CP,
+        alerta
     } = useFaster()
 
     const comprobarInfo = useCallback(() => {
-        if(!form) {
-            return nombre === '' || apellido === '' || numero === '' || correo === '' || password === '' 
-        } else {
-            return nombre === '' || apellido === '' || numero === '' || correo === '' || password === '' || calleNumero === '' || colonia === ''
-        }
-        
-    }, [nombre, apellido, numero, correo, password, calleNumero, form])
+        return nombre === '' || apellido === '' || numero === '' || correo === '' || password === '' || password.length <= 10
+    }, [nombre, apellido, numero, correo, password])
 
     useEffect(() => {
         comprobarInfo()
-    }, [nombre, apellido, numero, correo, password, calleNumero, form])
+    }, [nombre, apellido, numero, correo, password])
 
     return (
         <div className="flex justify-center">
@@ -44,6 +40,12 @@ const LogUpPage = () => {
               <h2 className="font-bold text-4xl text-blue-900 uppercase">Crear Cuenta</h2>
               <p className="text-3xl mt-5">Ingresa tus datos para crear una cuenta</p>
             </div>
+
+            {alerta && (
+                <Alerta 
+                    alerta={alerta}
+                />
+            )}
     
             <form 
                 className="flex flex-col gap-5"
@@ -112,26 +114,7 @@ const LogUpPage = () => {
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />
-                </div>
-
-                {!form ? (
-                    <button  
-                        type="button"
-                        className="text-2xl text-start text-gray-400 hover:text-gray-700"
-                        onClick={handleChangeForm}
-                    >+ Agregar Direccion</button>
-                ) : (
-                    <div className='mt-5'>
-                        <button  
-                            type="button"
-                            className="text-2xl text-start text-gray-400 hover:text-gray-700"
-                            onClick={handleChangeForm}
-                        >- No Agregar Direccion</button>
-                        <FormularioDirrecion />
-                    </div>
-                )}
-
-                
+                </div>                
     
               <button
                 disabled={comprobarInfo()}

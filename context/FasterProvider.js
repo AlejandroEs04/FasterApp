@@ -32,6 +32,9 @@ const FasterProvider = ({children}) => {
     const [ciudad, setCiudad] = useState('')
     const [estado, setEstado] = useState('')
 
+    // Alerta
+    const [alerta, setAlerta] = useState(null);
+
     const { data: session } = useSession()
     const router = useRouter()
 
@@ -82,14 +85,23 @@ const FasterProvider = ({children}) => {
                 token: generarId()
             });
 
-            if(res) {
-                toast.success(res.msg);
-                router.push('/');
-            }
+            toast.success(res.msg);
+            router.push('/');
+            setAlerta(null)
         } catch (error) {
-            console.log(error)
+            setAlerta(error.response.data.msg)
         }
     }
+
+    const handleLogIn = async (e, pass, correo) => {
+        e.preventDefault()
+        await signIn("credentials", {
+            correo: correo.current,
+            password: pass.current,
+            redirect: true,
+            callbackUrl: "/"
+        })
+      }
 
     const handleChangeSideBar = () => {
         setSideBarContainer(!sideBarContainer)
@@ -156,13 +168,25 @@ const FasterProvider = ({children}) => {
                 estado
             }
 
-            const res = await axios.put(`/api/user/${userId}/direccion`, {
+            const { data } = await axios.put(`/api/user/${userId}/direccion`, {
                 data: {
                     direccion
                 }
             })
 
-            console.log(res)
+            setCalleNumero(data.userUpdate.calleNumero)
+            setCP(data.userUpdate.codigoPostal)
+            setColonia(data.userUpdate.colonia)
+            setCiudad(data.userUpdate.ciudad)
+            setEstado(data.userUpdate.estado)
+
+            setDireccion({
+                calleNumero: calleNumero,
+                CP: codigoPostal,
+                colonia: colonia,
+                ciudad: ciudad,
+                estado: estado
+            })
         } catch (error) {
             console.log(error)
         }
@@ -280,7 +304,9 @@ const FasterProvider = ({children}) => {
                 addDireccion,
                 createOrderPaypal,
                 addPurchase,
-                direccion
+                direccion,
+                alerta,
+                handleLogIn
             }}
         >
             {children}
