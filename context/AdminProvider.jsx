@@ -33,7 +33,7 @@ const AdminProvider = ({children}) => {
     const { data: session } = useSession()
 
     const obtenerProveedores = async () => {
-        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/proveedores`)
+        const { data } = await axios(`/api/proveedores`)
         setProveedores(data.proveedores)
     }
 
