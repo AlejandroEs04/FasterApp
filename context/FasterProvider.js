@@ -200,7 +200,7 @@ const FasterProvider = ({children}) => {
 
         /**if(session) {**/
             try {
-                const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${await session.user.id}/carrito`)
+                const { data } = await axios(`/api/user/${await session.user.id}/carrito`)
 
                 const productosCarrito = [
                     data.carrito.map(productoCarrito => {
