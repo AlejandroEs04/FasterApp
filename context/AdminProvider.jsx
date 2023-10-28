@@ -33,12 +33,12 @@ const AdminProvider = ({children}) => {
     const { data: session } = useSession()
 
     const obtenerProveedores = async () => {
-        const { data } = await axios('http://localhost:3000/api/proveedores')
+        const { data } = await axios('${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/proveedores')
         setProveedores(data.proveedores)
     }
 
     const getProducto = async (tipo, elementoId) => {
-        const { data } = await axios(`http://localhost:3000/api/${tipo}/${elementoId}`)
+        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/${tipo}/${elementoId}`)
         setNombre(data.producto[0].nombre)
         setPrecio(data.producto[0].precio)
         setCosto(data.producto[0].costo)
@@ -51,7 +51,7 @@ const AdminProvider = ({children}) => {
     }
 
     const getCategoria = async (tipo, elementoId) => {
-        const {data} = await axios(`http://localhost:3000/api/${tipo}/${elementoId}`)
+        const {data} = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/${tipo}/${elementoId}`)
 
         console.log(data)
     }
@@ -105,7 +105,7 @@ const AdminProvider = ({children}) => {
         const formData = new FormData()
         formData.append('file', imagen)
 
-        const response = await fetch('/api/upload', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/upload`, {
             method: 'POST',
             body: formData
         })
@@ -132,7 +132,7 @@ const AdminProvider = ({children}) => {
                 try {
                     setLoading(true)
                     const url = await uploadImage()
-                    await axios.post('/api/productos', {nombre, precio, costo, url, descripcion, iva, categoriaId, proveedorId, inventario})
+                    await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/productos`, {nombre, precio, costo, url, descripcion, iva, categoriaId, proveedorId, inventario})
 
                     setNombre('')
                     setPrecio(0)
@@ -160,7 +160,7 @@ const AdminProvider = ({children}) => {
                     
                     const url = await uploadImage()
 
-                    await axios.post('/api/categorias', {nombre, url})
+                    await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/categorias`, {nombre, url})
 
                     setNombre('')
                     setImagen({})
@@ -179,7 +179,7 @@ const AdminProvider = ({children}) => {
                 try {
                     setLoading(true)
 
-                    await axios.post('/api/proveedores', {nombre})
+                    await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/proveedores`, {nombre})
 
                     setNombre('')
                     setLoading(false)
@@ -209,7 +209,7 @@ const AdminProvider = ({children}) => {
                         setUrlImage(url)
                     }
 
-                    const info = await axios.put(`/api/productos/${elementoId}`, {nombre, precio, costo, urlImage, descripcion, iva, categoriaId, proveedorId, inventario})
+                    const info = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/productos/${elementoId}`, {nombre, precio, costo, urlImage, descripcion, iva, categoriaId, proveedorId, inventario})
                     console.log(info)
 
                     setNombre('')
@@ -244,7 +244,7 @@ const AdminProvider = ({children}) => {
             case 'productos':
                 try {
                     console.log('hola')
-                    await axios.delete('/api/productos', {
+                    await axios.delete(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/productos`, {
                         data: {
                             elementoId
                         }
@@ -265,7 +265,7 @@ const AdminProvider = ({children}) => {
             
             case 'categorias':
                 try {
-                    await axios.delete('/api/categorias', {
+                    await axios.delete(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/categorias`, {
                         data: {
                             elementoId
                         }
@@ -325,7 +325,7 @@ const AdminProvider = ({children}) => {
         }
 
         try {
-            const res = await axios.post('/api/compras', {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/compras`, {
                 data: {
                     buy
                 }
@@ -338,7 +338,7 @@ const AdminProvider = ({children}) => {
     }
 
     const getCompras = async() => {
-        const { data } = await axios(`/api/compras`);
+        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/compras`);
         setCompras(data.compras)
     }
 
