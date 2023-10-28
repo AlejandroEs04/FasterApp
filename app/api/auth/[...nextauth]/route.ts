@@ -22,6 +22,8 @@ const handler = NextAuth({
 
                 const { data } = res
 
+                console.log(res)
+
                 return await data.result
               } catch (error) {
                 return null
