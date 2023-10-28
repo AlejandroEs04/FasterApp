@@ -1,11 +1,10 @@
 'use client'
 import { useRef } from "react"
-import { signIn } from "next-auth/react"
 import Link from "next/link"
 import useFaster from "../../../hooks/useFaster"
 
 const LogInPage = () => {
-  const {alerta, handleLogIn} = useFaster()
+  const {handleLogIn} = useFaster()
   const correo = useRef("")
   const pass = useRef("")
 

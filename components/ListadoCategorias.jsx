@@ -23,7 +23,7 @@ const ListadoCategorias = () => {
 
                 <tbody>
                     {categorias?.map(categoria => (
-                        <tr>
+                        <tr key={categoria.id}>
                             <td className='py-2 border-r'>{categoria.id}</td>
                             <td className='py-2 border-r'>{categoria.nombre}</td>
                             <td className='flex justify-center py-2 border-r'>

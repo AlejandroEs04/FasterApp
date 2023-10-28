@@ -14,7 +14,7 @@ const FasterProvider = ({children}) => {
     const [productos, setProductos] = useState(null)
     const [sideBarContainer, setSideBarContainer] = useState(false)
     const [form, setForm] = useState(false)
-    const carritoLS =  typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('carrito')) ?? [] : null
+    const carritoLS =  typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('carrito')) ?? [] : []
     const [carrito, setCarrito] = useState(carritoLS)
 
     const [direccion, setDireccion] = useState(null)

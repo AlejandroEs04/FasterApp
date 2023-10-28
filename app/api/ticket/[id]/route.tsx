@@ -10,7 +10,7 @@ export const GET = async (request, { params }) => {
             id: +params.id
         },
         include: {
-            productos: {
+            productosCompra: {
                 include: {
                     producto: true
                 }
@@ -109,13 +109,14 @@ export const GET = async (request, { params }) => {
                     Cant
                 </div>
             </div>
-                {compra.productos?.map(productoLista => (
+                {compra.productosCompra?.map(productoLista => (
                     <div
                         style={{
                             display: "flex",
                             gap: 10,
                             fontSize: 15
                         }}
+                        key={productoLista.producto.id}
                     >
                         <div style={{
                             display: "flex", 

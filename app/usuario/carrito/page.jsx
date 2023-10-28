@@ -18,7 +18,7 @@ const CarritoPage = () => {
     }, [])
 
     useEffect(() => {
-        if(carrito.length >= 1) {
+        if(carrito.length() >= 1) {
             const calculoTotal = carrito.reduce((total, productoCarrito) => total + (productoCarrito.productoPrecio * productoCarrito.cantidadOProductos), 0)
             setTotal(calculoTotal)
     

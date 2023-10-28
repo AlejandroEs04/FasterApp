@@ -1,6 +1,3 @@
-'use client'
-import useAdmin from '../hooks/useAdmin'
-
 const ListadoCompras = ({compras}) => {
 
     return (

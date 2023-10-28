@@ -8,6 +8,7 @@ const AdminContext = createContext()
 
 const AdminProvider = ({children}) => {
     const [proveedores, setProveedores] = useState(null)
+    const [compras, setCompras] = useState(null)
     const [modal, setModal] = useState(false)
     const [imagen, setImagen] = useState(null)
     const [nombre, setNombre] = useState('')
@@ -336,6 +337,11 @@ const AdminProvider = ({children}) => {
         }
     }
 
+    const getCompras = async() => {
+        const { data } = await axios(`/api/compras`);
+        setCompras(data.compras)
+    }
+
     return (
         <AdminContext.Provider
             value={{
@@ -374,7 +380,9 @@ const AdminProvider = ({children}) => {
                 saveBuy,
                 ticket,
                 setTicket,
-                setListaTicket
+                setListaTicket,
+                getCompras,
+                compras
             }}
         >
             {children}
