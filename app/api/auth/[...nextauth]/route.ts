@@ -15,12 +15,14 @@ const handler = NextAuth({
 
             async authorize(credentials, req) {
               try {
-                const res = await axios.post('http://localhost:3000/api/login', {
+                const res = await axios.post(`${process.env.NEXTAUTH_URL}/api/login`, {
                   correo: credentials?.correo,
                   password: credentials?.password
                 })
 
                 const { data } = res
+
+                console.log(res)
 
                 return await data.result
               } catch (error) {

@@ -19,7 +19,7 @@ const ListadoProveedores = () => {
 
         <tbody>
           {proveedores?.map(proveedor => (
-            <tr>
+            <tr key={proveedor.id}>
               <td className='py-2 border-r'>{proveedor.id}</td>
               <td className='py-2 border-r'>{proveedor.nombre}</td>
               <td className='py-2 flex justify-center gap-5'>

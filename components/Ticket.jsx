@@ -107,6 +107,7 @@ export default function Ticket({cantidad, total}) {
                       gap: 10,
                       fontSize: 15
                     }}
+                    key={producto.id}
                   >
                     <div style={{
                       width: 10

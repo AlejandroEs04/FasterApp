@@ -13,6 +13,8 @@ export async function POST(request) {
     const data = await request.formData()
     const image = data.get('file')
 
+          console.log(image)
+
     if(!image) {
         return NextResponse.json("No se ha subido ninguna imagen", {status: 400})
     }

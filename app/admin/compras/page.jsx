@@ -1,14 +1,18 @@
-import axios from "axios";
+'use client'
+import { useEffect, useState } from "react"
 import ListadoCompras from "../../../components/ListadoCompras"
+import useAdmin from "../../../hooks/useAdmin"
 
-const getCompras = async() => {
-    const { data } = await axios('http://localhost:3000/api/compras');
+const ComprasPage = () => {
+    const { getCompras, compras } = useAdmin()
 
-    return data.compras
-}
+    const getComprasInfo = async() => {
+        await getCompras()
+    }
 
-const ComprasPage = async() => {
-    const compras = await getCompras()
+    useEffect(() => {
+        getComprasInfo()
+    }, [])
 
     return (
         <div className='contenedor'>
