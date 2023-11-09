@@ -61,7 +61,7 @@ model Usuario {
 
 model Compra {
   id Int @id @default(autoincrement())
-  fecha String
+  fecha DateTime
   total Float
   usuarioId Int
   productosCompra ProductosCompra[]

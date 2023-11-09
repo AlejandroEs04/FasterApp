@@ -39,20 +39,16 @@ CREATE TABLE `Usuario` (
     `correo` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `numero` VARCHAR(191) NOT NULL,
-    `direccionId` INTEGER NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `Direccion` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `token` VARCHAR(191) NOT NULL,
+    `confirmado` BOOLEAN NOT NULL DEFAULT false,
     `calleNumero` VARCHAR(191) NOT NULL,
     `colonia` VARCHAR(191) NOT NULL,
     `codigoPostal` INTEGER NOT NULL,
     `ciudad` VARCHAR(191) NOT NULL,
     `estado` VARCHAR(191) NOT NULL,
+    `admin` BOOLEAN NOT NULL DEFAULT false,
 
+    UNIQUE INDEX `Usuario_correo_key`(`correo`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -61,8 +57,29 @@ CREATE TABLE `Compra` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `fecha` VARCHAR(191) NOT NULL,
     `total` DOUBLE NOT NULL,
-    `productoId` INTEGER NOT NULL,
     `usuarioId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `ProductosCompra` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `productoId` INTEGER NOT NULL,
+    `cantidad` INTEGER NOT NULL,
+    `compraId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Envio` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `compraId` INTEGER NOT NULL,
+    `paqueteria` BOOLEAN NOT NULL,
+    `enviado` BOOLEAN NOT NULL,
+    `puntoEnvio` BOOLEAN NOT NULL,
+    `entregado` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -80,11 +97,12 @@ CREATE TABLE `Carrito` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Paypal` (
+CREATE TABLE `PaypalToken` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `email` VARCHAR(191) NOT NULL,
-    `token` VARCHAR(191) NOT NULL,
-    `usuarioId` INTEGER NOT NULL,
+    `orderId` VARCHAR(191) NOT NULL,
+    `payerId` VARCHAR(191) NOT NULL,
+    `paymentId` VARCHAR(191) NOT NULL,
+    `facilitatorAccesToken` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -96,19 +114,19 @@ ALTER TABLE `Producto` ADD CONSTRAINT `Producto_categoriaId_fkey` FOREIGN KEY (`
 ALTER TABLE `Producto` ADD CONSTRAINT `Producto_proveedorId_fkey` FOREIGN KEY (`proveedorId`) REFERENCES `Proveedor`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Usuario` ADD CONSTRAINT `Usuario_direccionId_fkey` FOREIGN KEY (`direccionId`) REFERENCES `Direccion`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Compra` ADD CONSTRAINT `Compra_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `Compra` ADD CONSTRAINT `Compra_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ProductosCompra` ADD CONSTRAINT `ProductosCompra_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ProductosCompra` ADD CONSTRAINT `ProductosCompra_compraId_fkey` FOREIGN KEY (`compraId`) REFERENCES `Compra`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Envio` ADD CONSTRAINT `Envio_compraId_fkey` FOREIGN KEY (`compraId`) REFERENCES `Compra`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Carrito` ADD CONSTRAINT `Carrito_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Carrito` ADD CONSTRAINT `Carrito_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Paypal` ADD CONSTRAINT `Paypal_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
