@@ -40,7 +40,8 @@ const SeccionTotal = ({ cant, total, envio, carrito, textoBtn, btn }) => {
 
                             <PayPalScriptProvider
                                 options={{
-                                    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
+                                    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID, 
+                                    currency: 'MXN'
                                 }}
                             >
                                 <PayPalButtons 

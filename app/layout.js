@@ -6,7 +6,6 @@ import Header from '../components/Header';
 import ToastContenedor from '../components/ToastContenedor'
 import SideBar from '../components/SideBar'
 import Footer from '../components/Footer'
-import Script from 'next/script';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['100', '300', '400', '500', '700', '900']  })
 
@@ -19,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" >
       <head>
-        <meta property="og:image" content={`http://loaclhost:3000/api/og`} />
+        <meta property="og:image" content={`/api/og`} />
       </head>
       <Providers>
         <FasterProvider>

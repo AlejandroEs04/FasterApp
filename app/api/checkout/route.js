@@ -16,7 +16,7 @@ export async function POST(req, res) {
         "purchase_units": [
             {   
                 "amount": {
-                    currency_code: "USD",
+                    currency_code: "MXN",
                     value: data.total
                 },
                 "description": "Compra de un producto"

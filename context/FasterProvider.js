@@ -39,20 +39,19 @@ const FasterProvider = ({children}) => {
     const router = useRouter()
 
     const getCategorias = async() => {
-        console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
-        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/categorias`)
+        const { data } = await axios(`/api/categorias`)
         setCategorias(data.categorias)
     }
 
     const getProductos = async() => {
-        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/productos`)
+        const { data } = await axios(`/api/productos`)
         setProductos(data.productos)
     }
 
     const getDireccion = async() => {
         if(session) {
             try {
-                const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${await session?.user?.id}`)
+                const { data } = await axios(`/api/user/${await session?.user?.id}`)
                 setDireccion(data.user)
             } catch (error) {
                 console.log(error)
@@ -77,7 +76,7 @@ const FasterProvider = ({children}) => {
 
     const handleCreateAccount = async() => {
         try {
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user`, {
+            const res = await axios.post(`/api/user`, {
                 nombre,
                 apellido, 
                 correo,
@@ -119,13 +118,13 @@ const FasterProvider = ({children}) => {
         }
 
         try {
-            const carrito = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${await session.user.id}/carrito`)
+            const carrito = await axios(`/api/user/${await session.user.id}/carrito`)
             const carritoArray = await carrito.data.carrito
 
             const productoRepetido = await carritoArray?.filter(producto => producto.productoId === productoCarrito.id)
 
             if(productoRepetido.length > 0) {
-                const res = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${await session.user.id}/carrito`, {
+                const res = await axios.put(`/api/user/${await session.user.id}/carrito`, {
                     data: {
                         idCarrito: productoRepetido[0].id,
                         cantidad: productoCarrito.cantidad
@@ -137,7 +136,7 @@ const FasterProvider = ({children}) => {
                 }
                 
             } else {
-                const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${await session.user.id}/carrito`, {
+                const res = await axios.post(`/api/user/${await session.user.id}/carrito`, {
                     data: {
                         productoCarrito
                     }
@@ -170,7 +169,7 @@ const FasterProvider = ({children}) => {
                 estado
             }
 
-            const { data } = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${userId}/direccion`, {
+            const { data } = await axios.put(`/api/user/${userId}/direccion`, {
                 data: {
                     direccion
                 }
@@ -238,7 +237,7 @@ const FasterProvider = ({children}) => {
         try {
             const pedidoActualizado = carrito.map(productoCarrito => producto.productoId === productoCarrito.productoId ? productoActualizado : productoCarrito )
             setCarrito(pedidoActualizado)
-            const res = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${await session.user.id}/carrito`, {
+            const res = await axios.put(`/api/user/${await session.user.id}/carrito`, {
                 data: {
                     idCarrito: producto.id,
                     cantidad: cantidadAct
@@ -254,7 +253,7 @@ const FasterProvider = ({children}) => {
     }
 
     const createOrderPaypal = async(total, cantidad) => {
-        const res = await axios.post(`${process.env.NEXTAUTH_URL}/api/checkout`, {
+        const res = await axios.post(`/api/checkout`, {
             data: {
                 total, 
                 cantidad
