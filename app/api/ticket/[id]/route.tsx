@@ -54,10 +54,6 @@ export const GET = async (request, { params }) => {
                 Nota: {compra.id}
             </div>
 
-            <div style={{ display: "flex", fontSize: 15, textAlign: "start" }}>
-                Fecha: {compra.fecha}
-            </div>
-
             <div style={{
                 display: "flex",
                 flexDirection: "column",
