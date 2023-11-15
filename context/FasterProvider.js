@@ -19,6 +19,8 @@ const FasterProvider = ({children}) => {
 
     const [direccion, setDireccion] = useState(null)
 
+    console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL);
+
     // Crear Cuenta
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
@@ -39,19 +41,19 @@ const FasterProvider = ({children}) => {
     const router = useRouter()
 
     const getCategorias = async() => {
-        const { data } = await axios(`/api/categorias`)
+        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/categorias`)
         setCategorias(data.categorias)
     }
 
     const getProductos = async() => {
-        const { data } = await axios(`/api/productos`)
+        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/productos`)
         setProductos(data.productos)
     }
 
     const getDireccion = async() => {
         if(session) {
             try {
-                const { data } = await axios(`/api/user/${await session?.user?.id}`)
+                const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${await session?.user?.id}`)
                 setDireccion(data.user)
             } catch (error) {
                 console.log(error)
