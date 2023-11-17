@@ -19,8 +19,6 @@ const FasterProvider = ({children}) => {
 
     const [direccion, setDireccion] = useState(null)
 
-    console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL);
-
     // Crear Cuenta
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
