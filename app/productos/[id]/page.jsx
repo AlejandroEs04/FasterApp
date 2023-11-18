@@ -6,7 +6,7 @@ import FormularioCantidad from '../../../components/FormularioCantidad'
 import ClienteListadoProductos from "../../../components/ClienteListadoProductos"
 
 const obtenerItemTipo = async(tipo, elementoId) => {
-  const { data } = await axios(`http://localhost:3000/api/${tipo}/${elementoId}`)
+  const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/${tipo}/${elementoId}`)
   return data.producto[0]
 }
 
