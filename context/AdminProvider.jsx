@@ -33,12 +33,12 @@ const AdminProvider = ({children}) => {
     const { data: session } = useSession()
 
     const obtenerProveedores = async () => {
-        const { data } = await axios(`/api/proveedores`)
+        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/proveedores`)
         setProveedores(data.proveedores)
     }
 
     const getProducto = async (tipo, elementoId) => {
-        const { data } = await axios(`/api/${tipo}/${elementoId}`)
+        const { data } = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/${tipo}/${elementoId}`)
         setNombre(data.producto[0].nombre)
         setPrecio(data.producto[0].precio)
         setCosto(data.producto[0].costo)
@@ -51,7 +51,7 @@ const AdminProvider = ({children}) => {
     }
 
     const getCategoria = async (tipo, elementoId) => {
-        const {data} = await axios(`/api/${tipo}/${elementoId}`)
+        const {data} = await axios(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/${tipo}/${elementoId}`)
 
         console.log(data)
     }

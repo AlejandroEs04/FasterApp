@@ -29,7 +29,6 @@ export async function POST(request:Request) {
         return NextResponse.json({msg: error.message}, {status: 400})
     }
 
-    console.log("sigue")
     const { password, ...userInfo } = user
     const accessToken  = signJwtAccessToken(userInfo)
     const result = {
