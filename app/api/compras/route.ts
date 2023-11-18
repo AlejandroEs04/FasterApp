@@ -4,9 +4,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 
 export const GET = async(req:Request, res:Response) => {
-    const compra = await prisma.compra.findFirst()
-
-    return NextResponse.json({compra})
     try {
         const compras = await prisma.compra.findMany()
         return NextResponse.json({message: 'OK', compras}, { status: 200 })
@@ -19,8 +16,6 @@ export const GET = async(req:Request, res:Response) => {
 export const POST = async(req:Request, res:Response) => {
     const { data } = await req.json()
     const fecha = await Date.now()
-
-    console.log(data.buy)
 
     const { listaTicket } = await data.buy
 
@@ -62,7 +57,6 @@ export const POST = async(req:Request, res:Response) => {
 
         return NextResponse.json({message: 'OK', compra}, { status: 200 })
     } catch (error) {
-        console.log(error)
         return NextResponse.json({message: 'Error'}, { status: 500 })
     }
 }
