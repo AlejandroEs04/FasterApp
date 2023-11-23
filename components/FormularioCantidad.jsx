@@ -5,7 +5,7 @@ import useFaster from "../hooks/useFaster"
 const FormularioCantidad = ({ producto, tipoButton }) => {
     const [cantidad, setCantidad] = useState(1)
 
-    const { handleAgregarCarrito, actualizarProductoCarrito } = useFaster()
+    const { handleAgregarCarrito, actualizarProductoCarrito, eliminarProductoCarrito } = useFaster()
 
     useEffect(() => {
         if(producto?.cantidadOProductos) {
@@ -55,13 +55,22 @@ const FormularioCantidad = ({ producto, tipoButton }) => {
                     Agregar al carrito
                 </button>
             ) : (
-                <button 
-                    onClick={() => actualizarProductoCarrito(producto, cantidad)}
-                    className={`${producto.inventario <= 0 ? 'bg-indigo-100 text-indigo-500' : 'bg-blue-800 text-white hover:bg-blue-950'} text-3xl w-40 py-2 rounded-xl font-bold mt-5`}
-                    disabled={producto.inventario <= 0}
-                >
-                    Guardar
-                </button>
+                <div className="flex gap-2">
+                    <button 
+                        onClick={() => actualizarProductoCarrito(producto, cantidad)}
+                        className={`${producto.inventario <= 0 ? 'bg-indigo-100 text-indigo-500' : 'bg-blue-800 text-white hover:bg-blue-950'} text-3xl w-40 py-2 rounded-xl font-bold mt-5`}
+                        disabled={producto.inventario <= 0}
+                    >
+                        Guardar
+                    </button>
+
+                    <button 
+                        onClick={() => eliminarProductoCarrito(producto)}
+                        className={`bg-red-600 text-white hover:bg-red-800 text-3xl w-40 py-2 rounded-xl font-bold mt-5`}
+                        >
+                        Eliminar
+                    </button>
+                </div>
             )}
         </div>
     )

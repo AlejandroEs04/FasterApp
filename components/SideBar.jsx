@@ -39,7 +39,9 @@ const SideBar = () => {
             </div>
 
             <nav className="flex flex-col items-end pb-20 gap-5">
-                <AuthNav />
+                <AuthNav 
+                    btn={true}
+                />
             </nav>
         </div>
     </Sidebar>
