@@ -32,8 +32,9 @@ const SideBar = () => {
                 </div>
             
                 <nav className="flex flex-col items-end mt-5 gap-5">
-                    <Link href={'/'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link>
-                    <Link href={'/productos'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link>
+                    <button onClick={handleChangeSideBar}><Link href={'/'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link></button>
+                    <button onClick={handleChangeSideBar}><Link href={'/productos'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link></button>
+                    <button onClick={handleChangeSideBar}><Link href={'/categorias'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link></button>
                 </nav>
             </div>
 

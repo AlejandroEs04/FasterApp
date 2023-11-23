@@ -1,14 +1,24 @@
 'use client'
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import useFaster from "../../../hooks/useFaster"
+import Alerta from "../../../components/Alerta"
 
-const LogInPage = () => {
+const LogInPage = ({searchParams}) => {
+  const [alerta, setAlerta] = useState();
   const {handleLogIn} = useFaster()
   const correo = useRef("")
   const pass = useRef("")
 
-  
+  useEffect(() => {
+    if(searchParams.error) {
+      setAlerta("Credenciales Incorrectas")
+    }
+
+    setTimeout(() => {
+      setAlerta(null)
+    }, 15000)
+  },[])
 
   return (
     <div className="flex justify-center">
@@ -17,6 +27,12 @@ const LogInPage = () => {
           <h2 className="font-bold text-4xl text-blue-900 uppercase">Iniciar Sesion</h2>
           <p className="text-3xl mt-5">Ingresa tus datos para iniciar sesion</p>
         </div>
+
+        {alerta && (
+          <Alerta 
+            alerta={alerta}
+          />
+        )}
 
         <form className="flex flex-col gap-5">
           <div className="flex flex-col text-start gap-2">
