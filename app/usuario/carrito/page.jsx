@@ -29,7 +29,7 @@ const CarritoPage = () => {
 
     return (
         <div className="contenedor">
-            <div className='flex flex-col gap-10 md:gap-0 md:flex-row'>
+            <div className='flex gap-10 md:gap-0 md:flex-row flex-col-reverse'>
                 <div className="flex flex-col w-full md:w-4/6 gap-10">
                     <div className='flex flex-col w-full px-4'>
                         <h2 className="text-blue-900 text-start font-extrabold text-5xl">Carrito</h2>
