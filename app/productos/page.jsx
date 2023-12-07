@@ -43,8 +43,8 @@ const ProductosPage = () => {
         links={links}
       />
 
-      <div className='contenedor flex gap-10'>
-        <div className='w-3/12'>
+      <div className='contenedor flex flex-col gap-10 md:flex-row'>
+        <div className='w-full sm:w-3/12'>
           <h3 className='text-5xl font-bold text-amber-500'>Filtros</h3>
 
           <div className='bg-white rounded-md p-5 text-start mt-10 flex flex-col gap-5'>
@@ -69,7 +69,7 @@ const ProductosPage = () => {
           </div>
         </div>
 
-        <div className='w-9/12'>
+        <div className='w-full sm:w-9/12'>
           <h1 className='text-5xl font-bold text-blue-900'>Productos</h1>
           <div className={`${styles.listadoGridProductos} mt-10`}>
             {productos?.map(producto => (

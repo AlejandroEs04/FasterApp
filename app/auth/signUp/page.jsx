@@ -26,7 +26,7 @@ const LogUpPage = () => {
     } = useFaster()
 
     const comprobarInfo = useCallback(() => {
-        return nombre === '' || apellido === '' || numero === '' || correo === '' || password === '' || password.length <= 10
+        return nombre === '' || apellido === '' || numero === '' || correo === '' || password === '' || password.length <= 9
     }, [nombre, apellido, numero, correo, password])
 
     useEffect(() => {
@@ -114,11 +114,14 @@ const LogUpPage = () => {
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />
+                    <div>
+                        <p className=' text-xl text-gray-500' >La contraseña debe tener al menos 10 caracteres</p>
+                    </div>
                 </div>                
     
               <button
                 disabled={comprobarInfo()}
-                className={`${comprobarInfo() ? 'bg-indigo-100 text-indigo-500' : 'bg-blue-700 text-white hover:bg-blue-800'}  px-5 py-2  font-bold rounded-lg mt-10 `}
+                className={`${comprobarInfo() ? 'bg-indigo-100 text-indigo-500' : 'bg-blue-700 text-white hover:bg-blue-800'}  px-5 py-2  font-bold rounded-lg mt-5 `}
               >
                 Crear cuenta
               </button>
