@@ -227,6 +227,22 @@ const FasterProvider = ({children}) => {
         
     }
 
+    const eliminarProductoCarrito = async(producto) => {
+        try {
+            const res = await axios.delete(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/${await session.user.id}/carrito/${producto.id}`)
+
+            const carritoAct = carrito.filter(productoCarrito => productoCarrito.id !== producto.id)
+            setCarrito(carritoAct);
+
+            if(res) {
+                toast.error("Producto Eliminado del Carrito")
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const actualizarProductoCarrito = async({cantidadOProductos, ...producto}, cantidadAct) => {
 
         const productoActualizado = {
@@ -333,7 +349,8 @@ const FasterProvider = ({children}) => {
                 addPurchase,
                 direccion,
                 alerta,
-                handleLogIn
+                handleLogIn,
+                eliminarProductoCarrito
             }}
         >
             {children}

@@ -44,25 +44,27 @@ const SideBar = () => {
                 </div>
             
                 <nav className="flex flex-col items-end mt-5 gap-5">
-                    
                     {admin ? (
                         <>
-                            <Link href={'/admin'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link>
-                            <Link href={'/admin/productos'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link>
-                            <Link href={'/admin/categorias'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link>
-                            <Link href={'/admin/compras'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link>
+                            <button onClick={handleChangeSideBar}><Link href={'/admin'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link></button>
+                            <button onClick={handleChangeSideBar}><Link href={'/admin/productos'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link></button>
+                            <button onClick={handleChangeSideBar}><Link href={'/admin/categorias'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link></button>
+                            <button onClick={handleChangeSideBar}><Link href={'/admin/compras'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Compras</Link></button>
                         </>
                     ) : (
                         <>
-                            <Link href={'/'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link>
-                            <Link href={'/productos'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link>
+                            <button onClick={handleChangeSideBar}><Link href={'/'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link></button>
+                            <button onClick={handleChangeSideBar}><Link href={'/productos'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link></button>
+                            <button onClick={handleChangeSideBar}><Link href={'/categorias'} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link></button>
                         </>
                     )}
                 </nav>
             </div>
 
             <nav className="flex flex-col items-end pb-20 gap-5">
-                <AuthNav />
+                <AuthNav 
+                    btn={true}
+                />
             </nav>
         </div>
     </Sidebar>
