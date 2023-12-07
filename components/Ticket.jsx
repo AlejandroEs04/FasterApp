@@ -7,7 +7,9 @@ export default function Ticket({cantidad, total}) {
 
   const { listaTicket, ticket } = useAdmin()
 
-  const width = 450
+  console.log((ticket*0.00001).toString().split('.')[1]);
+
+  const width = 350
 
     return (
       <div className="flex flex-col gap-5 items-center">
@@ -21,7 +23,7 @@ export default function Ticket({cantidad, total}) {
           width,
           display: "flex",
           flexDirection: "column",
-          padding: '25px 50px',
+          padding: '25px 40px',
         }}>
           <div style={{display: "flex", flexDirection: "column"}}>
             <div style={{fontSize: 20, marginBottom: 10}}>
@@ -37,15 +39,11 @@ export default function Ticket({cantidad, total}) {
             </div>
 
             <div style={{ fontSize: 15, textAlign: "start" }}>
-              Telefono: 8110367083
+              Telefono: 8112882028
             </div>
 
             <div style={{ fontSize: 15, textAlign: "start" }}>
-              RFC: El RFC
-            </div>
-
-            <div style={{ fontSize: 15, textAlign: "start" }}>
-              Nota: 0001
+              Nota: {(ticket*0.00001).toString().split('.')[1]}
             </div>
 
             <div style={{ fontSize: 15, textAlign: "start" }}>
@@ -105,7 +103,7 @@ export default function Ticket({cantidad, total}) {
                     style={{
                       display: "flex",
                       gap: 10,
-                      fontSize: 15
+                      fontSize: 13
                     }}
                     key={producto.id}
                   >
@@ -153,6 +151,14 @@ export default function Ticket({cantidad, total}) {
 
             <div style={{fontSize: 15}}>
               Total: {formatearDinero(total)}
+            </div>
+
+            <div style={{fontSize: 12, marginTop: 10, textAlign: 'center'}}>
+              Gracias por su preferencia:D
+            </div>
+
+            <div style={{fontSize: 12, textAlign: 'center'}}>
+              Vuelva pronto
             </div>
           </div>
         </div>

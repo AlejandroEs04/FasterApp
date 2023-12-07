@@ -1,12 +1,24 @@
 'use client'
 import Link from "next/link"
+import { useState, useEffect } from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar"
 import useFaster from "../hooks/useFaster"
 import AuthNav from "./AuthNav"
+import { usePathname } from "next/navigation"
 
 const SideBar = () => {
-
+    const [admin, setAdmin] = useState(false);
     const { sideBarContainer, handleChangeSideBar } = useFaster()
+
+    const path = usePathname();
+
+    useEffect(() => {
+        if(path === "/admin" || path === "/admin/productos" || path === "/admin/categorias" || path === "/admin/compras") {
+            setAdmin(true);
+        } else {
+            setAdmin(false);
+        }
+    }, []);
 
   return (
     <div className="z-50">
@@ -32,8 +44,20 @@ const SideBar = () => {
                 </div>
             
                 <nav className="flex flex-col items-end mt-5 gap-5">
-                    <Link href={'/'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link>
-                    <Link href={'/productos'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link>
+                    
+                    {admin ? (
+                        <>
+                            <Link href={'/admin'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link>
+                            <Link href={'/admin/productos'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link>
+                            <Link href={'/admin/categorias'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link>
+                            <Link href={'/admin/compras'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Categorias</Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link href={'/'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Inicio</Link>
+                            <Link href={'/productos'} onClick={handleChangeSideBar} className="text-white px-2 py-1 hover:bg-amber-300 hover:text-black">Productos</Link>
+                        </>
+                    )}
                 </nav>
             </div>
 

@@ -15,7 +15,7 @@ const AdminProvider = ({children}) => {
     const [precio, setPrecio] = useState(0)
     const [costo, setCosto] = useState(0)
     const [descripcion, setDescripcion] = useState('')
-    const [iva, setIva] = useState(0)
+    const [iva, setIva] = useState(16)
     const [categoriaId, setCategoriaId] = useState(0)
     const [proveedorId, setProveedorId] = useState(0)
     const [inventario, setInventario] = useState(0)
@@ -23,7 +23,7 @@ const AdminProvider = ({children}) => {
     const [tipo, setTipo] = useState('')
     const [elementoId, setElementoId] = useState(null)
     const [loading, setLoading] = useState(false)
-    const [urlImage, setUrlImage] = useState({})
+    const [urlImage, setUrlImage] = useState('')
 
     // Ticket
     const [listaTicket, setListaTicket] = useState([])
@@ -131,7 +131,14 @@ const AdminProvider = ({children}) => {
             case 'productos':
                 try {
                     setLoading(true)
-                    const url = await uploadImage()
+
+                    if(imagen) {
+                        const url = await uploadImage()
+                        setUrlImage(url)
+                    } else {
+                        url = '';
+                    }
+
                     await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/productos`, {nombre, precio, costo, url, descripcion, iva, categoriaId, proveedorId, inventario})
 
                     setNombre('')
@@ -317,7 +324,7 @@ const AdminProvider = ({children}) => {
     }
 
     const saveBuy = async(totalTicket, cantidadTicket) => {
-        const buy = {
+        const buy = await{
             listaTicket, 
             totalTicket, 
             cantidadTicket,

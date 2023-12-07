@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export const GET = async(req:Request, res:Response) => {
     try {
@@ -19,18 +19,19 @@ export const POST = async(req:Request, res:Response) => {
 
     const { listaTicket } = await data.buy
 
+
     try {
         const compra = await prisma.compra.create({
             data: {
-                fecha: new Date(fecha).toLocaleDateString(),
+                fecha: new Date(fecha).toISOString(),
                 total: +data.buy.totalTicket,
                 usuarioId: +data.buy.usuarioID
             }
         })
 
-        const productosCompra = await listaTicket.map(productoCompra => productoCompra && {
-            productoId: productoCompra.id, 
-            cantidad: productoCompra.cantidad,
+        const productosCompra = await listaTicket.map(producto => producto && {
+            productoId: producto.id, 
+            cantidad: producto.cantidad,
             compraId: compra.id
         })
 
@@ -57,6 +58,6 @@ export const POST = async(req:Request, res:Response) => {
 
         return NextResponse.json({message: 'OK', compra}, { status: 200 })
     } catch (error) {
-        return NextResponse.json({message: 'Error'}, { status: 500 })
+        return NextResponse.json({message: 'Error', error}, { status: 500 })
     }
 }

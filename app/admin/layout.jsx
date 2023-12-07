@@ -8,8 +8,8 @@ const layout = ({children}) => {
   return (
     <AdminProvider>
         <main className='flex h-full'>
-            <aside className='flex-col w-1/5 bg-slate-900 pt-10 px-6 text-white'>
-                <div>
+            <aside className='hidden md:flex md:flex-col md:w-1/5 bg-slate-900 pt-10 px-6 text-white'>
+                <div className='hidden md:flex md:flex-col' >
                     <h3 className='text-4xl font-extrabold mb-10'>Navegacion</h3>
                     <nav className='flex flex-col gap-6'>
                         <Link href={'/admin'} className='flex items-center text-white font-normal gap-5 hover:gap-6'>
@@ -49,7 +49,7 @@ const layout = ({children}) => {
                 <p className='mt-20 text-2xl font-bold'>Zona de administracion</p>
             </aside>
 
-            <div className='w-4/5 overflow-x-scroll mb-10'>
+            <div className='md:w-4/5 w-full overflow-x-scroll mb-10 px-4'>
                 {children}
             </div>
 

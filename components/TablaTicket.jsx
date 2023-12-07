@@ -13,7 +13,7 @@ const TablaTicket = () => {
 
     useEffect(() => {
         if(listaTicket.length >= 1) {
-            const calculoTotal = listaTicket.reduce((total, producto) => total + (producto.cantidad * producto.precio), 0)
+            const calculoTotal = listaTicket.reduce((total, producto) => total + (producto.cantidad * (producto.precio + (producto.precio * .16))), 0)
             setTotal(calculoTotal)
 
             const calculoCant = listaTicket.reduce((cantidad, producto) => cantidad + producto.cantidad, 0)

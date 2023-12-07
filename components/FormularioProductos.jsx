@@ -32,12 +32,12 @@ const FormularioProductos = () => {
     const { categorias } = useFaster()
 
     const comprobarInfo = useCallback(() => {
-        return nombre === '' || nombre.length < 3 || costo <= 0 || precio <= 0 || iva <= 0 || descripcion.length < 20 || descripcion === '' || inventario <= 0 || proveedorId <= 0 || categoriaId <= 0
-    }, [nombre, costo, precio, iva, descripcion, inventario, proveedorId, categoriaId])
+        return nombre === '' || nombre.length < 3 || costo <= 0 || precio <= 0 || iva <= 0 || inventario <= 0 || proveedorId <= 0 || categoriaId <= 0
+    }, [nombre, costo, precio, inventario, proveedorId, categoriaId])
 
     useEffect(() => {
         comprobarInfo()
-    }, [nombre, costo, precio, iva, descripcion, inventario, proveedorId, categoriaId])
+    }, [nombre, costo, precio, inventario, proveedorId, categoriaId])
 
     return (
         <form className='flex flex-col gap-5' onSubmit={(e) => handleSaveItem(e, elementoId)}>
