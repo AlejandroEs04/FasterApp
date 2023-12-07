@@ -5,7 +5,7 @@ import SliderContainer from '../components/SliderContainer'
 export default function Home() {
   return (
     <main>
-      <div className='hidden sm:grid'>
+      <div className=''>
         <SliderContainer />
       </div>
         
