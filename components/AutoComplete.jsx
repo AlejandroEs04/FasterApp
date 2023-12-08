@@ -12,7 +12,7 @@ export default function FreeSoloCreateOption() {
   const { handleAddItemTicket, setValue } = useAdmin()
 
   return (
-    <div className='flex gap-5'>
+    <div className='flex flex-col md:flex-row gap-5'>
       {productos && (
         <Autocomplete
           autoComplete
@@ -26,7 +26,7 @@ export default function FreeSoloCreateOption() {
           )}
           sx={{ width: 300, bgcolor: 'white' }}
           renderInput={(params) => <TextField {...params} size='medium' label="Seleccione Los Productos"/>}
-          className='w-5/6'
+          className='md:w-5/6 w-full'
           onChange={(event, newValue) => {
             setValue(newValue)
           }}
@@ -37,7 +37,7 @@ export default function FreeSoloCreateOption() {
           e.preventDefault()
           handleAddItemTicket()
         }} 
-        className='w-1/6 bg-amber-500 font-bold rounded-lg hover:bg-amber-600 text-white' type='submit'
+        className=' w-full md:w-1/6 bg-amber-500 font-bold rounded-lg hover:bg-amber-600 text-white' type='submit'
       >
         Agregar
       </button>

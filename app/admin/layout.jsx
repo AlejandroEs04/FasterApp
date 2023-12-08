@@ -49,7 +49,7 @@ const layout = ({children}) => {
                 <p className='mt-20 text-2xl font-bold'>Zona de administracion</p>
             </aside>
 
-            <div className='md:w-4/5 w-full overflow-x-scroll mb-10 px-4'>
+            <div className='md:w-4/5 w-full mb-10 px-4'>
                 {children}
             </div>
 
