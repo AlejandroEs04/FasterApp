@@ -19,12 +19,11 @@ export const POST = async(req:Request, res:Response) => {
 
     const { listaTicket } = await data.buy
 
-
     try {
         const compra = await prisma.compra.create({
             data: {
                 fecha: new Date(fecha).toISOString(),
-                total: +data.buy.totalTicket,
+                total: +data.buy.totalTicket.toFixed(2),
                 usuarioId: +data.buy.usuarioID
             }
         })
@@ -33,6 +32,16 @@ export const POST = async(req:Request, res:Response) => {
             productoId: producto.id, 
             cantidad: producto.cantidad,
             compraId: compra.id
+        })
+
+        await prisma.envio.create({
+            data: {
+                compraId: compra.id,
+                paqueteria: false,
+                enviado: false,
+                puntoEnvio: false,
+                entregado: false
+            }
         })
 
         await productosCompra.map(async(producto) => {

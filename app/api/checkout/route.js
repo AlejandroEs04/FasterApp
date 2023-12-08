@@ -8,25 +8,29 @@ const enviroment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 const client = new paypal.core.PayPalHttpClient(enviroment);
 
 export async function POST(req, res) {
-    const { data } = await req.json()
-    let request = new paypal.orders.OrdersCreateRequest();
+    try {
+        const { data } = await req.json()
+        let request = new paypal.orders.OrdersCreateRequest();
 
-    request.requestBody({
-        "intent": "CAPTURE",
-        "purchase_units": [
-            {   
-                "amount": {
-                    currency_code: "MXN",
-                    value: data.total
-                },
-                "description": "Compra de un producto"
-            }
-        ]
-    })
+        request.requestBody({
+            "intent": "CAPTURE",
+            "purchase_units": [
+                {   
+                    "amount": {
+                        currency_code: "MXN",
+                        value: data.total.toFixed(2)
+                    },
+                    "description": "Compra de un producto"
+                }
+            ]
+        })
 
-    const response = await client.execute(request);
+        const response = await client.execute(request);
 
-    return NextResponse.json({
-        id: response.result.id
-    })
+        return NextResponse.json({
+            id: response.result.id
+        })
+    } catch (error) {
+          console.log(error);  
+    }
 }
