@@ -5,6 +5,7 @@ import Loading from './Loading';
 import FormularioCategoria from './FormularioCategoria'
 import FormularioProductos from './FormularioProductos';
 import FormularioProveedores from './FormularioProveedores'
+import FormularioClientes from './FormularioClientes';
 
 const customStyles = {
     content: {
@@ -38,6 +39,7 @@ const ModalContenedor = () => {
             {tipo === 'categorias' && <FormularioCategoria />}
             {tipo === 'productos' && <FormularioProductos />}
             {tipo === 'proveedores' && <FormularioProveedores />}
+            {tipo === 'clientes' && <FormularioClientes />}
             {loading && <Loading />}
         </Modal>
     )

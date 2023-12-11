@@ -349,6 +349,10 @@ const AdminProvider = ({children}) => {
         setCompras(data.compras)
     }
 
+    const handleSaveClient = async(nombre, apellidos, numero) => {
+        console.log(nombre, ' ', apellidos, ' ', numero)
+    }
+
     return (
         <AdminContext.Provider
             value={{
@@ -389,7 +393,8 @@ const AdminProvider = ({children}) => {
                 setTicket,
                 setListaTicket,
                 getCompras,
-                compras
+                compras,
+                handleSaveClient
             }}
         >
             {children}

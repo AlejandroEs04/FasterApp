@@ -55,6 +55,7 @@ model Usuario {
   ciudad String 
   estado String 
   admin Boolean @default(false)
+  adminClient Boolean @default(false)
   compras Compra[]
   carrito Carrito[]
 }

@@ -11,7 +11,7 @@ const ListadoProductos = () => {
     return (
         <div className='flex flex-col mt-10 bg-white py-5 px-10 rounded-3xl gap-5 overflow-x-hidden'>
             <div className="cajon overflow-x-scroll pb-4" >
-                <table className='w-max' >
+                <table className='w-max min-w-full' >
                     <thead className='border-b'>
                         <tr>
                             <th className='py-2'>ID</th>

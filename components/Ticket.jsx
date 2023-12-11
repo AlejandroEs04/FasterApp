@@ -24,6 +24,7 @@ export default function Ticket({cantidad, total}) {
           display: "flex",
           flexDirection: "column",
           padding: '25px 40px',
+          heigth: 'auto'
         }}>
           <div style={{display: "flex", flexDirection: "column"}}>
             <div style={{fontSize: 20, marginBottom: 10}}>
